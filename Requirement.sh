@@ -3,7 +3,7 @@
 echo "Install Nmap, Nikto and SmbMap\n";
 apt install -y pip git nmap nikto smbmap wapiti ldap-utils polenum smbclient ;
 sudo pip install python-libnmap XlsxWriter impacket ldap3 PyYAML>=5.1;
-echo "\nDownload Script colelction for Nmap, enum4linux and nmap-converter \n";
+echo "\nDownload Script colelction for Nmap \n";
 git clone https://github.com/n3tSh4d3/Nmap_Script_Collection.git;
 echo "\n Remove old script on /usr/share/nmap/scripts\n";
 rm -R /usr/share/nmap/scripts/*;
