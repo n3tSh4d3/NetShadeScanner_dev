@@ -226,9 +226,8 @@ if (MenuFlag == 'Y'):
 		for port  in data:
 			if (port=='139'or port=='445'):
 				try:
-					enumfile="enum"+var_1
 					cmd = subprocess.run(["smbmap", "-H", var_1])
-					cmd = subprocess.run(["./enum4linux/enum4linux.pl", var_1], stdout=open(enumfile,'w'))
+					cmd = subprocess.run(["./enum4linux/enum4linux.py","-A", var_1,"-oA",repDir+"/enum4linux_"+var_1])
 					print("\n Report enum4linux saved!")
 				
 				except KeyboardInterrupt:
