@@ -1,0 +1,133 @@
+#!/bin/python3
+
+# dependency check for the modules
+try: 
+	import os
+	import subprocess
+	import sys
+	import re
+	from colorama import Fore, Back, Style
+	import fileinput
+	import requests
+	from urllib.request import urlopen
+	from urllib.error import *
+	from datetime import datetime
+except ModuleNotFoundError:
+	print('run the requirements.txt file to have all the requirements satisfied')
+
+
+
+print(Fore.RED + '''
+
+
+ ______  _______ _______ _______ _______  ______ _ _______ 
+(______)(_______|_______|_______|_______)/ _____) (_______)
+ _     _ _____   _____   _____   _     _( (____ | |_     _ 
+| |   | |  ___) |  ___) |  ___) | |   | |\____ \| | |   | |
+| |__/ /| |_____| |     | |_____| |   | |_____) ) | |___| |
+|_____/ |_______)_|     |_______)_|   |_(______/|_|\_____/ 
+                                                           
+                                                                                                                                                                                       
+╔═╗┬ ┬┌┬┐┌─┐┌┬┐┌─┐┌┬┐┬┌─┐  ╔═╗┌─┐┌─┐┌┐┌┌┐┌┌─┐┬─┐
+╠═╣│ │ │ │ ││││├─┤ │ ││    ╚═╗│  ├─┤││││││├┤ ├┬┘
+╩ ╩└─┘ ┴ └─┘┴ ┴┴ ┴ ┴ ┴└─┘  ╚═╝└─┘┴ ┴┘└┘┘└┘└─┘┴└─
+	
+	''')
+
+print(Fore.GREEN + '''
+Autor:
+Fidemsrl.it
+	''' + Style.RESET_ALL
+	)
+#print()
+# check dependencies
+
+print("Enter the target of the net scan: (es.192.168.1.0)")
+
+# check for index input
+try:
+	var_1 = input()
+
+except IndexError:
+	print('Put a valid switch or use -h switch to see the list of options')
+
+print("Enter the subnet of the net scan: (24)")
+
+# check for index input
+try:
+	var_2 = input()
+
+except IndexError:
+	print('Put a valid switch or use -h switch to see the list of options')
+
+
+# check for the input
+try:
+	if (var_1 == '-h'):
+		print('Help Menu:')
+		print('Run the script as root')
+		
+		sys.exit() 
+
+except:
+	sys.exit()
+
+var_nmap=var_1+"/"+var_2
+
+	
+time_string = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
+repDir = "Report_"+var_1+"_"+var_2+"_at_"+time_string
+cmd = subprocess.run(["mkdir",repDir])
+
+
+def dependency_checks(tool):
+	""" Checks the dependencies for the tools that are going to be"""
+	try:
+		cmd1 = subprocess.Popen([tool],
+				stdout=subprocess.PIPE, 
+				stderr=subprocess.PIPE)
+
+	except FileNotFoundError:
+		print('run the requirements.txt file to have all the requirements satisfied')
+
+R = open("Report.txt", "a")
+R.write("Report starting!!!")
+
+####### enter the Network-scanner ########
+
+print("use -Pn option ? (Y/N)")
+
+pn = input()
+
+
+print("start scan...")
+
+
+if (pn == 'Y'):
+	
+	try:
+		#SCANNER NP mode
+		cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+
+	except KeyboardInterrupt:
+		sys.exit()		
+
+#else of the scanner if
+elif (pn != 'Y'):
+	try:
+		#SCANNER NP mode
+		cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])	
+
+	except KeyboardInterrupt:
+		sys.exit()	
+
+
+
+
+else:
+	print('''[!] whoops!! The script recieved an invalid argument.
+		Please check your ip address or use the -h switch to get a list of commands''')
+	sys.exit()
+
