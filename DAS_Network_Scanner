@@ -70,35 +70,49 @@ cmd = subprocess.run(["mkdir",repDir])
 
 
 ####### enter the Network-scanner ########
+print("Do you want to do a quick scan? (Y/N)")
 
-print("use -Pn option ? (Y/N)")
+fast = input()
 
-pn = input()
-
-
-print("start scan...")
-
-
-if (pn == 'Y'):
+if (fast == 'Y'):
 	try:
-		#SCANNER NP mode NOT evasion mode
-		cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+		#Fast Scan
+		cmd = subprocess.run(["nmap","-sn",var_nmap,"-oX",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Fast_Scan_Nmap_XLS"+var_1+".xls",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"])
 
 	except KeyboardInterrupt:
 		sys.exit()
+		
+else:
+
+	print("use -Pn option ? (Y/N)")
+
+	pn = input()
+
+
+	print("start scan...")
+
+
+	if (pn == 'Y'):
+		try:
+			#SCANNER NP mode NOT evasion mode
+			cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_XLS"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+
+		except KeyboardInterrupt:
+			sys.exit()
 	
-#else of the scanner if
-elif (pn != 'Y'):
-	try:
-		#SCANNER NP mode NOT evasion mode
-		cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+	#else of the scanner if
+	elif (pn != 'Y'):
+		try:
+			#SCANNER NP mode NOT evasion mode
+			cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_XLS"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
 
-	except KeyboardInterrupt:
-		sys.exit()
+		except KeyboardInterrupt:
+			sys.exit()
 
-####### enter the Network-scanner EVASION MODE ######## nmap -D RND:10 [target] 
+####### enter the Network-scanner EVASION MODE ######## 
 
 print('''Do you want to use IDS / FireWall evasion mode?(Y/N)
 The scanner will perform multiple scans using different firewall / IDS evasion methods?''')
@@ -110,15 +124,15 @@ if (evasion == 'Y'):
 	try:
 		#SCANNER evasion mode
 		cmd = subprocess.run(["nmap","-f",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_frag"+var_1+".xls",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_frag_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"])
 		cmd = subprocess.run(["nmap","--badsum",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xls",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_badsum_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"])
 		cmd = subprocess.run(["nmap","--data-length",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xls",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_data_length_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xml"])
 		cmd = subprocess.run(["nmap","-D RND:5",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xls",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_decoy_random_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"])
 		cmd = subprocess.run(["nmap","--source-port 53",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xls",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_source_port_53_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"])
 	except KeyboardInterrupt:
 		sys.exit()
 else:
