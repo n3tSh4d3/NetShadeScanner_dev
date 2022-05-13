@@ -83,7 +83,7 @@ Start Fast Scan Mode
 		#Fast Scan
 		cmd = subprocess.run(["nmap","-sn",var_nmap,"-oX",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"])
 		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Fast_Scan_Nmap_XLS"+var_1+".xls",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap2svg.py",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"])
+		
 
 	except KeyboardInterrupt:
 		sys.exit()
