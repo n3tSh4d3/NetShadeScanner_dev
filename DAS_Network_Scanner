@@ -61,17 +61,6 @@ except IndexError:
 	print('Put a valid switch or use -h switch to see the list of options')
 
 
-# check for the input
-try:
-	if (var_1 == '-h'):
-		print('Help Menu:')
-		print('Run the script as root')
-		
-		sys.exit() 
-
-except:
-	sys.exit()
-
 var_nmap=var_1+"/"+var_2
 
 	
@@ -108,6 +97,24 @@ elif (pn != 'Y'):
 
 	except KeyboardInterrupt:
 		sys.exit()
-	
 
-	
+####### enter the Network-scanner EVASION MODE ########
+
+print('''Do you want to use IDS / FireWall evasion mode?(Y/N)
+The scanner will perform multiple scans using different firewall / IDS evasion methods?''')
+
+evasion = input()
+
+if (evasion == 'Y'):
+	print("start scan...")
+	try:
+		#SCANNER evasion mode
+		cmd = subprocess.run(["nmap","-f",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_frag"+var_1+".xls",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"])
+		cmd = subprocess.run(["nmap","--badsum",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xls",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"])
+
+	except KeyboardInterrupt:
+		sys.exit()
+else:
+	print('''The network scan is finished! The reports are in the folder named with the network address and the scan start date and time.''')
