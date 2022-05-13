@@ -121,10 +121,8 @@ Start Deep Network Scan Mode
 ####### enter the Network-scanner EVASION MODE ######## 
 
 print('''
-
 Do you want to use IDS / FireWall evasion mode?(Y/N)
 NOTE:The scanner will perform multiple scans using different firewall / IDS evasion methods
-
 ''')
 
 evasion = input()
