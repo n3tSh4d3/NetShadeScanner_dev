@@ -87,40 +87,36 @@ Start Fast Scan Mode
 	except KeyboardInterrupt:
 		sys.exit()
 		
-else:
-	print("Deep Network Scan mode; Do you want to continue? (Y/N)")
+print("Do you want to do a deep network scan? (Y/N)")
 	
-	deep =input()
+deep =input()
+
+if (deep == 'Y'):
+	print(Fore.RED + '''
+Start Deep Network Scan Mode
 	
+	'''+ Style.RESET_ALL)
 	print("Deep Network Scan mode; Do you want use -Pn option ? (Y/N)")
 
 	pn = input()
+	if (pn == 'Y'):
+		try:
+			#SCANNER NP mode NOT evasion mode
+			cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_XLS"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
 
-
+		except KeyboardInterrupt:
+			sys.exit()
 	
-	if (deep == 'Y'):
-		print(Fore.RED + '''
-Start Deep Network Scan Mode
-	
-		'''+ Style.RESET_ALL)
-		if (pn == 'Y'):
-			try:
-				#SCANNER NP mode NOT evasion mode
-				cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
-				cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_XLS"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+	#else of the scanner if
+	elif (pn != 'Y'):
+		try:
+			#SCANNER NP mode NOT evasion mode
+			cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_XLS"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
 
-			except KeyboardInterrupt:
-				sys.exit()
-	
-		#else of the scanner if
-		elif (pn != 'Y'):
-			try:
-				#SCANNER NP mode NOT evasion mode
-				cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
-				cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_XLS"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
-
-			except KeyboardInterrupt:
-				sys.exit()
+		except KeyboardInterrupt:
+			sys.exit()
 
 ####### enter the Network-scanner EVASION MODE ######## 
 
