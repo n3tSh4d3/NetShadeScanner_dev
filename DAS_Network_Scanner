@@ -117,6 +117,8 @@ if (evasion == 'Y'):
 		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xls",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xml"])
 		cmd = subprocess.run(["nmap","-D RND:5",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"])
 		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xls",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"])
+		cmd = subprocess.run(["nmap","--source-port 53",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"])
+		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xls",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"])
 	except KeyboardInterrupt:
 		sys.exit()
 else:
