@@ -85,7 +85,7 @@ if (fast == 'Y'):
 		
 else:
 
-	print("use -Pn option ? (Y/N)")
+	print("Deep Network Scan mode; Do you want use -Pn option ? (Y/N)")
 
 	pn = input()
 
