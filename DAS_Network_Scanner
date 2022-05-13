@@ -99,33 +99,51 @@ print("use -Pn option ? (Y/N)")
 
 pn = input()
 
+print("use evasion mode ? (Y/N)")
+print("NOTE:The scanner will perform multiple scans using different firewall / IDS evasion methods.)
+
+evasion = input()
 
 print("start scan...")
 
 
 if (pn == 'Y'):
+	if(evasion == 'Y'):
+		try:
+			#SCANNER NP and Evasion mode
+			cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+
+		except KeyboardInterrupt:
+			sys.exit()	
+	else:
+		try:
+			#SCANNER NP mode NOT evasion mode
+			cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
+
+		except KeyboardInterrupt:
+			sys.exit()
 	
-	try:
-		#SCANNER NP mode
-		cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
-
-	except KeyboardInterrupt:
-		sys.exit()		
-
 #else of the scanner if
 elif (pn != 'Y'):
-	try:
-		#SCANNER NP mode
-		cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])	
+	if(evasion == 'Y'):
+		try:
+			#SCANNER NP and Evasion mode
+			cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
 
-	except KeyboardInterrupt:
-		sys.exit()	
+		except KeyboardInterrupt:
+			sys.exit()	
+	else:
+		try:
+			#SCANNER NP mode NOT evasion mode
+			cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Nmap_"+var_1+".xml"])
+			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_"+var_1+".xls",repDir+"/Nmap_"+var_1+".xml"])
 
-
-
-
+		except KeyboardInterrupt:
+			sys.exit()
+	
 else:
 	print('''[!] whoops!! The script recieved an invalid argument.
 		Please check your ip address or use the -h switch to get a list of commands''')
