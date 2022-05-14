@@ -32,13 +32,12 @@ print(Fore.RED + '''
 ╠═╣│ │ │ │ ││││├─┤ │ ││    ╚═╗│  ├─┤││││││├┤ ├┬┘
 ╩ ╩└─┘ ┴ └─┘┴ ┴┴ ┴ ┴ ┴└─┘  ╚═╝└─┘┴ ┴┘└┘┘└┘└─┘┴└─
 	
-	''')
+	'''+ Style.RESET_ALL)
 
 print(Fore.GREEN + '''
 Autor:
 Fidemsrl.it
-	''' + Style.RESET_ALL
-	)
+	''' + Style.RESET_ALL)
 #print()
 # check dependencies
 
