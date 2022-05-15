@@ -12,7 +12,7 @@ try:
     import requests
     from urllib.request import urlopen
     from urllib.error import *
-    from datetime import datetime
+    import datetime
     import schedule
     import time
 except ModuleNotFoundError:
@@ -98,7 +98,7 @@ if Scheduling_enable == 'Y':
 
 var_nmap = var_1 + "/" + var_2
 
-time_string = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
+time_string = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
 repDir = "Job_" + job + "_" + var_1 + "_" + var_2 + "_at_" + time_string
 cmd = subprocess.run(["mkdir", repDir])
 
