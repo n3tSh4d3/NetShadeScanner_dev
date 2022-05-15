@@ -25,12 +25,11 @@ def job1():
 
 print(Fore.RED + '''
 
- ______  _______ _______ _______ _______  ______ _ _______ 
-(______)(_______|_______|_______|_______)/ _____) (_______)
- _     _ _____   _____   _____   _     _( (____ | |_     _ 
-| |   | |  ___) |  ___) |  ___) | |   | |\____ \| | |   | |
-| |__/ /| |_____| |     | |_____| |   | |_____) ) | |___| |
-|_____/ |_______)_|     |_______)_|   |_(______/|_|\_____/ 
+   \  |          |      ___|    |                   |        
+    \ |    _ \   __|  \___ \    __ \     _` |    _` |    _ \ 
+  |\  |    __/   |          |   | | |   (   |   (   |    __/ 
+ _| \_|  \___|  \__|  _____/   _| |_|  \__,_|  \__,_|  \___| 
+                                                             
                                                                                                                                                                                        
 ╔═╗┬ ┬┌┬┐┌─┐┌┬┐┌─┐┌┬┐┬┌─┐  ╔═╗┌─┐┌─┐┌┐┌┌┐┌┌─┐┬─┐
 ╠═╣│ │ │ │ ││││├─┤ │ ││    ╚═╗│  ├─┤││││││├┤ ├┬┘
@@ -40,7 +39,6 @@ print(Fore.GREEN + '''
 Autor:
 Fidemsrl.it
 	''' + Style.RESET_ALL)
-###### remove old buffer #####
 
 print(Fore.RED + '''Setup job		
 				''')
@@ -87,7 +85,7 @@ Scheduling_enable = input()
 
 if Scheduling_enable == 'Y':
     print(Fore.MAGENTA + "Which day of the week?" + Style.RESET_ALL)
-    print(Fore.YELLOW + "NOTE: WRITE 0 for Monday, 1 for Tuesday, 2 for Wednesday, 3 for Thursday, 4 for Friday, 5 for Saturday and 7 for Sunday ")
+    print(Fore.YELLOW + "NOTE: WRITE 0 for Monday, 1 for Tuesday, 2 for Wednesday, 3 for Thursday, 4 for Friday, 5 for Saturday and 6 for Sunday ")
     Day_of_week = input()
 
     print(Fore.MAGENTA + "At that time?" + Style.RESET_ALL)
