@@ -3,20 +3,21 @@
 # dependency check for the modules
 
 try:
-	import os
-	import subprocess
-	import sys
-	import re
-	from colorama import Fore, Back, Style
-	import fileinput
-	import requests
-	from urllib.request import urlopen
-	from urllib.error import *
-	from datetime import datetime
-	import schedule
-	import time
+    import os
+    import subprocess
+    import sys
+    import re
+    from colorama import Fore, Back, Style
+    import fileinput
+    import requests
+    from urllib.request import urlopen
+    from urllib.error import *
+    from datetime import datetime
+    import schedule
+    import time
 except ModuleNotFoundError:
-	print('run the requirements.txt file to have all the requirements satisfied')
+    print('run the requirements.txt file to have all the requirements satisfied')
+
 
 def job1():
     print("I am a scheduled job")
@@ -34,86 +35,73 @@ print(Fore.RED + '''
 ╔═╗┬ ┬┌┬┐┌─┐┌┬┐┌─┐┌┬┐┬┌─┐  ╔═╗┌─┐┌─┐┌┐┌┌┐┌┌─┐┬─┐
 ╠═╣│ │ │ │ ││││├─┤ │ ││    ╚═╗│  ├─┤││││││├┤ ├┬┘
 ╩ ╩└─┘ ┴ └─┘┴ ┴┴ ┴ ┴ ┴└─┘  ╚═╝└─┘┴ ┴┘└┘┘└┘└─┘┴└─
-	'''+ Style.RESET_ALL)
+	''' + Style.RESET_ALL)
 print(Fore.GREEN + '''
 Autor:
 Fidemsrl.it
 	''' + Style.RESET_ALL)
 ###### remove old buffer #####
 
-print(Fore.RED +'''Setup job		
+print(Fore.RED + '''Setup job		
 				''')
 
-print(Fore.GREEN +"Enter name of job"+ Style.RESET_ALL)
+print(Fore.GREEN + "Enter name of job" + Style.RESET_ALL)
 job = input()
 
-print(Fore.GREEN+"Enter the target of the net scan: (es.192.168.1.0)"+ Style.RESET_ALL)
-print(Fore.YELLOW+"NOTE:Alternatively, enter the single host to be analyzed (es.192.168.1.254)"+ Style.RESET_ALL)
+print(Fore.GREEN + "Enter the target of the net scan: (es.192.168.1.0)" + Style.RESET_ALL)
+print(Fore.YELLOW + "NOTE:Alternatively, enter the single host to be analyzed (es.192.168.1.254)" + Style.RESET_ALL)
 var_1 = input()
 
-print(Fore.GREEN+"Enter the subnet of the net scan: (24)"+ Style.RESET_ALL)
-print(Fore.YELLOW+'NOTE: Enter "32" for a single host'+ Style.RESET_ALL)
+print(Fore.GREEN + "Enter the subnet of the net scan: (24)" + Style.RESET_ALL)
+print(Fore.YELLOW + 'NOTE: Enter "32" for a single host' + Style.RESET_ALL)
 var_2 = input()
 
-print(Fore.GREEN+"Quick scan (not port scanner) (Y/N)"+ Style.RESET_ALL)
+print(Fore.GREEN + "Quick scan (not port scanner) (Y/N)" + Style.RESET_ALL)
 fast = input()
 
-print(Fore.GREEN+"Deep network scan? (Y/N)"+ Style.RESET_ALL)
+print(Fore.GREEN + "Deep network scan? (Y/N)" + Style.RESET_ALL)
 deep = input()
 
-if (deep =='Y'):
-	print(Fore.GREEN+"Deep Network Scan mode; Do you want use -Pn option ? (Y/N)"+ Style.RESET_ALL)
-	pn = input()
+if (deep == 'Y'):
+    print(Fore.GREEN + "Deep Network Scan mode; Do you want use -Pn option ? (Y/N)" + Style.RESET_ALL)
+    pn = input()
 
-print(Fore.GREEN+"IDS / FireWall evasion mode?(Y/N)"+ Style.RESET_ALL)
+print(Fore.GREEN + "IDS / FireWall evasion mode?(Y/N)" + Style.RESET_ALL)
 evasion = input()
 
-if(evasion == 'Y'):
-	print(Fore.BLUE+"Fragmentary packet mode:(Y/N)"+ Style.RESET_ALL)
-	Frag = input()
-	print(Fore.BLUE+"Badsum check packet mode:(Y/N)"+ Style.RESET_ALL)
-	print(Fore.YELLOW+"NOTE:This scanning takes a long time")
-	Badsum = input()
-	print(Fore.BLUE+"Data random add packet mode:(Y/N)"+ Style.RESET_ALL)
-	Datalength = input()
-	print(Fore.BLUE+"Decoy 5 random host mode:(Y/N)"+ Style.RESET_ALL)
-	Decoy = input()
-	print(Fore.BLUE+"Source port DNS mode:(Y/N)"+Style.RESET_ALL)
-	SourcePort = input()
+if (evasion == 'Y'):
+    print(Fore.BLUE + "Fragmentary packet mode:(Y/N)" + Style.RESET_ALL)
+    Frag = input()
+    print(Fore.BLUE + "Badsum check packet mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.YELLOW + "NOTE:This scanning takes a long time")
+    Badsum = input()
+    print(Fore.BLUE + "Data random add packet mode:(Y/N)" + Style.RESET_ALL)
+    Datalength = input()
+    print(Fore.BLUE + "Decoy 5 random host mode:(Y/N)" + Style.RESET_ALL)
+    Decoy = input()
+    print(Fore.BLUE + "Source port DNS mode:(Y/N)" + Style.RESET_ALL)
+    SourcePort = input()
 
-print(Fore.MAGENTA+"Do you want to schedule the work? (Y/N)"+ Style.RESET_ALL)
+print(Fore.MAGENTA + "Do you want to schedule the work? (Y/N)" + Style.RESET_ALL)
 Scheduling_enable = input()
 
-if(Scheduling_enable == 'Y'):
-	print(Fore.MAGENTA + "Which day of the week?" + Style.RESET_ALL)
-	print(Fore.YELLOW + "NOTE: WRITE monday tuesday wednesday thursday friday saturday sunday ")
-	Day = input()
+if Scheduling_enable == 'Y':
+    print(Fore.MAGENTA + "Which day of the week?" + Style.RESET_ALL)
+    print(Fore.YELLOW + "NOTE: WRITE 0 for Monday, 1 for Tuesday, 2 for Wednesday, 3 for Thursday, 4 for Friday, 5 for Saturday and 7 for Sunday ")
+    Day_of_week = input()
 
-	print(Fore.MAGENTA + "At that time?" + Style.RESET_ALL)
-	print(Fore.YELLOW + "NOTE: WRITE es.  18:00 22:00 13:22 00:22 ")
-	Hours = input()
-
-#	schedule.every(3).seconds.do(job1)
-#	schedule.every().minute.at(":23").do(job)
-	schedule.every().saturday.at("22:45").do(job1)
-
-	while True:
-		# Checks whether a scheduled task
-		# is pending to run or not
-		schedule.run_pending()
-		time.sleep(1)
-
-
+    print(Fore.MAGENTA + "At that time?" + Style.RESET_ALL)
+    print(Fore.YELLOW + "NOTE: WRITE es.  18:00 22:00 13:22 00:22 ")
+    Hour_of_day = input()
 
 
 ########create variable and dir of report #########
 
-var_nmap=var_1+"/"+var_2
+var_nmap = var_1 + "/" + var_2
 
-	
 time_string = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
-repDir = "Job_"+job+"_"+var_1+"_"+var_2+"_at_"+time_string
-cmd = subprocess.run(["mkdir",repDir])
+repDir = "Job_" + job + "_" + var_1 + "_" + var_2 + "_at_" + time_string
+cmd = subprocess.run(["mkdir", repDir])
 
 ###### open the buffer file####
 b = open("Buffer.txt", "a")
@@ -123,122 +111,178 @@ b = open("Buffer.txt", "a")
 
 
 ####### Fast Scan #######
-if (fast == 'Y'):
-	print(Fore.RED + '''
----Start Fast Scan Mode--- Scan started, please wait!
-	'''+ Style.RESET_ALL)
-	try:
-		#Fast Scan
-		cmd = subprocess.run(["nmap","-sn",var_nmap,"-oX",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"],stdout=b)
-		cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Fast_Scan_Nmap_XLS"+var_1+".xls",repDir+"/Fast_Scan_Nmap_"+var_1+".xml"])
-		
 
-	except KeyboardInterrupt:
-		sys.exit()
-		
+def fastScan():
+    if (fast == 'Y'):
+        print(Fore.RED + '''
+---Start Fast Scan Mode--- Scan started, please wait!
+	''' + Style.RESET_ALL)
+        try:
+            # Fast Scan
+            cmd = subprocess.run(["nmap", "-sn", var_nmap, "-oX", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"],
+                                 stdout=b)
+            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Fast_Scan_Nmap_XLS" + var_1 + ".xls",
+                                  repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
+
+
+        except KeyboardInterrupt:
+            sys.exit()
+
+
 ####### Deep Scan #######
 
-if (deep == 'Y'):
-	print(Fore.RED + '''
+def deepScan():
+    if (deep == 'Y'):
+        print(Fore.RED + '''
 ---Start Deep Network Scan Mode---  Scan started, please wait!
-	'''+ Style.RESET_ALL)
+	''' + Style.RESET_ALL)
 
-	if (pn == 'Y'):
-		try:
-			#SCANNER NP mode NOT evasion mode
-			cmd = subprocess.run(["nmap","-Pn","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Deep_Scan_Nmap_"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Deep_Scan_Nmap_XLS"+var_1+".xls",repDir+"/Deep_Scan_Nmap_"+var_1+".xml"])
+        if (pn == 'Y'):
+            try:
+                # SCANNER NP mode NOT evasion mode
+                cmd = subprocess.run(
+                    ["nmap", "-Pn", "-p-", "-A", "-T4", var_nmap, "-oX", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"],
+                    stdout=b)
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
+                                      repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
 
-		except KeyboardInterrupt:
-			sys.exit()
-	
-	#else of the scanner if
-	elif (pn != 'Y'):
-		try:
-			#SCANNER NP mode NOT evasion mode
-			cmd = subprocess.run(["nmap","-p-", "-A", "-T4",var_nmap,"-oX",repDir+"/Deep_Scan_Nmap_"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Deep_Scan_Nmap_XLS"+var_1+".xls",repDir+"/Deep_Scan_Nmap_"+var_1+".xml"])
+            except KeyboardInterrupt:
+                sys.exit()
 
-		except KeyboardInterrupt:
-			sys.exit()
+        # else of the scanner if
+        elif (pn != 'Y'):
+            try:
+                # SCANNER NP mode NOT evasion mode
+                cmd = subprocess.run(
+                    ["nmap", "-p-", "-A", "-T4", var_nmap, "-oX", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"],
+                    stdout=b)
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
+                                      repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
 
-####### enter the Network-scanner EVASION MODE ######## 
+            except KeyboardInterrupt:
+                sys.exit()
 
 
+def evasionScan():
+    ####### enter the Network-scanner EVASION MODE ########
 
-if (evasion == 'Y'):
-	print(Fore.RED + '''
+    if (evasion == 'Y'):
+        print(Fore.RED + '''
 Start Evasion IDS/Firewall Scan Mode
-	'''+ Style.RESET_ALL)
-	try:
-		#SCANNER evasion mode
-		if(Frag == 'Y'):
-			print(Fore.RED +'''
+	''' + Style.RESET_ALL)
+        try:
+            # SCANNER evasion mode
+            if (Frag == 'Y'):
+                print(Fore.RED + '''
 ---Fragmentary mode--- Scan started, please wait!
-			'''+ Style.RESET_ALL)
-			cmd = subprocess.run(["nmap","-f",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_frag_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_frag"+var_1+".xml"])
+			''' + Style.RESET_ALL)
+                cmd = subprocess.run(
+                    ["nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"],
+                    stdout=b)
+                cmd = subprocess.run(
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
 
-		if(Badsum == 'Y'):
-			print(Fore.RED +'''
+            if (Badsum == 'Y'):
+                print(Fore.RED + '''
 ---Badsum mode--- Scan started, please wait!
-			'''+ Style.RESET_ALL)
-			cmd = subprocess.run(["nmap","--badsum",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_badsum_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_badsum"+var_1+".xml"])
+			''' + Style.RESET_ALL)
+                cmd = subprocess.run(
+                    ["nmap", "--badsum", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"],
+                    stdout=b)
+                cmd = subprocess.run(
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
 
-		if(Datalength == 'Y'):
-			print(Fore.RED +'''
+            if (Datalength == 'Y'):
+                print(Fore.RED + '''
 ---Data length mode--- Scan started, please wait!
-			'''+ Style.RESET_ALL)
-			cmd = subprocess.run(["nmap","--data-length","25",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_data_length_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_data_length"+var_1+".xml"])
+			''' + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap", "--data-length", "25", var_nmap, "-oX",
+                                      repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=b)
+                cmd = subprocess.run(
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
 
-		if(Decoy == 'Y'):
-			print(Fore.RED +'''
+            if (Decoy == 'Y'):
+                print(Fore.RED + '''
 ---Decoy mode--- Scan started, please wait!
-			'''+ Style.RESET_ALL)
-			cmd = subprocess.run(["nmap","-D","RND:5",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_decoy_random_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_decoy_random"+var_1+".xml"])
+			''' + Style.RESET_ALL)
+                cmd = subprocess.run(
+                    ["nmap", "-D", "RND:5", var_nmap, "-oX",
+                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"],
+                    stdout=b)
+                cmd = subprocess.run(
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
 
-		if(SourcePort == 'Y'):
-			print(Fore.RED +'''
+            if (SourcePort == 'Y'):
+                print(Fore.RED + '''
 ---Source port DNS mode--- Scan started, please wait!
-			'''+ Style.RESET_ALL)
-			cmd = subprocess.run(["nmap","--source-port","53",var_nmap,"-oX",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"],stdout=b)
-			cmd = subprocess.run(["./nmap-converter.py","-o",repDir+"/Nmap_evasion_mode_source_port_53_XLS"+var_1+".xls",repDir+"/Nmap_evasion_mode_source_port_53"+var_1+".xml"])
-	except KeyboardInterrupt:
-		sys.exit()
+			''' + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap", "--source-port", "53", var_nmap, "-oX",
+                                      repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=b)
+                cmd = subprocess.run(
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
+        except KeyboardInterrupt:
+            sys.exit()
 
 
-else:
-	print('''
+def finalOutMessage():
+    print('''
 The network scan is finished! 
 The reports are in the folder named with the network address and the scan start date and time.
 ''')
 
-####### list of IP up from all scan session ###########
 
-x = open("Buffer.txt")
-Parse = x.read()
-data = re.findall(r'\b(?:[1-2]?[0-9]{1,2}\.){3}[1-2]?[0-9]{1,2}\b',Parse)
-data = list(filter(lambda x: all([int(y) <= 255 for y in x.split('.')]), data))
+def listOfIp():
+    ####### list of IP up from all scan session ###########
+    x = open("Buffer.txt")
+    Parse = x.read()
+    data = re.findall(r'\b(?:[1-2]?[0-9]{1,2}\.){3}[1-2]?[0-9]{1,2}\b', Parse)
+    data = list(filter(lambda x: all([int(y) <= 255 for y in x.split('.')]), data))
 
-#### remove duplicate   #####
+    #### remove duplicate   #####
 
-res = []
-for i in data:
-    if i not in res:
-        res.append(i)
-IPlist= '\n'.join([str(elem) for elem in res])
+    res = []
+    for i in data:
+        if i not in res:
+            res.append(i)
+    IPlist = '\n'.join([str(elem) for elem in res])
 
-####print IP list #####
+    ####print IP list #####
 
-print(IPlist)
+    print(IPlist)
 
-##### close buffer file #####
-b.close
 
-try:
-	os.remove("Buffer.txt")
-except:
-	system.exit()
+def cleanBuffer():
+    ##### close buffer file #####
+    b.close()
+    try:
+        os.remove("Buffer.txt")
+    except:
+        print("not remove Buffer")
+
+######## main function ########
+
+
+if Scheduling_enable == 'Y':
+    while 1:
+        ora = datetime.datetime.now()
+        if Day_of_week == str(ora.weekday()):
+            if ora.strftime("%H:%M") == Hour_of_day:
+                fastScan()
+                deepScan()
+                evasionScan()
+                listOfIp()
+                finalOutMessage()
+                cleanBuffer()
+                time.sleep(24 * 60 * 60)
+else:
+    fastScan()
+    deepScan()
+    evasionScan()
+    listOfIp()
+    finalOutMessage()
+    cleanBuffer()
