@@ -408,7 +408,9 @@ if Scheduling_enable == 'Y':
                 fastScan()
                 deepScan()
                 evasionScan()
-                listOfIp()
+                ip_list_up = listOfIp()
+                for elem in ip_list_up:
+                    enumeration(elem)
                 finalOutMessage()
                 cleanBuffer()
                 time.sleep(61)
