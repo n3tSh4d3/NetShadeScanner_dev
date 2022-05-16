@@ -19,9 +19,6 @@ except ModuleNotFoundError:
     print('run the requirements.txt file to have all the requirements satisfied')
 
 
-def job1():
-    print("I am a scheduled job")
-
 
 print(Fore.RED + '''
 
@@ -81,6 +78,22 @@ if evasion == 'Y':
     print(Fore.BLUE + "Source port DNS mode:(Y/N)" + Style.RESET_ALL)
     SourcePort = input()
 
+print(Fore.GREEN+"[*] The next part of the tool will attempt to enumerate the services found in the NMAP scan" + Style.RESET_ALL)
+print(Fore.GREEN+"Enumeration mode? (Y/N)"+ Style.RESET_ALL)
+enum_mode = input()
+if enum_mode =='Y':
+    print(Fore.BLUE + "Do you want use -Pn option for port scanner? (Y/N)" + Style.RESET_ALL)
+    pn_enum = input()
+    print(Fore.BLUE+"Do you want use NIKTO? (Y/N)"+ Style.RESET_ALL)
+    Nikto = input()
+    print(Fore.BLUE + "Do you want use WAPITI? (Y/N)" + Style.RESET_ALL)
+    Wapiti = input()
+    print(Fore.BLUE + "Do you want use ENUM4LINUX? (Y/N)" + Style.RESET_ALL)
+    Enum4linux = input()
+    print(Fore.BLUE + "Do you want test the NMAP scripts? (Y/N)" + Style.RESET_ALL)
+    script_Nmap = input()
+
+print(Fore.MAGENTA + "[*] The next part of the tool will attempt to scheduling the job" + Style.RESET_ALL)
 print(Fore.MAGENTA + "Do you want to schedule the work? (Y/N)" + Style.RESET_ALL)
 Scheduling_enable = input()
 
@@ -203,92 +216,147 @@ Start Evasion IDS/Firewall Scan Mode
 ---Fragmentary mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"],
-                    stdout=z)
+                    ["nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
 
             if Badsum == 'Y':
                 print(Fore.RED + '''
 ---Badsum mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["nmap", "--badsum", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"],
-                    stdout=z)
+                    ["nmap", "--badsum", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
 
             if Datalength == 'Y':
                 print(Fore.RED + '''
 ---Data length mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--data-length", "25", var_nmap, "-oX",
-                                      repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
+                cmd = subprocess.run(["nmap", "--data-length", "25", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
 
             if Decoy == 'Y':
                 print(Fore.RED + '''
 ---Decoy mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["nmap", "-D", "RND:5", var_nmap, "-oX",
-                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"],
-                    stdout=z)
+                    ["nmap", "-D", "RND:5", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
 
             if SourcePort == 'Y':
                 print(Fore.RED + '''
 ---Source port DNS mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--source-port", "53", var_nmap, "-oX",
-                                      repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
-                cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
+                cmd = subprocess.run(["nmap", "--source-port", "53", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
         except KeyboardInterrupt:
             sys.exit()
 
 def enumeration(a):
     ipScan=a
-    f = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt", "a")
+    if (enum_mode == 'Y'):
 
-    if (pn == 'Y'):
+        print(Fore.RED+"Scanning host : "+ipScan+Style.RESET_ALL)
+
+        f = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt", "a")
+
+        if (pn_enum == 'Y'):
+            try:
+                # SCANNER NP mode
+                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-T4", ipScan], stdout=f)
+            except KeyboardInterrupt:
+                sys.exit()
+        # else of the scanner if
+        elif (pn_enum != 'Y'):
+            try:
+                # SCANNER NP mode
+                cmd = subprocess.run(["nmap", "-p-", "-T4", ipScan], stdout=f)
+            except KeyboardInterrupt:
+                sys.exit()
+
+        f.close()
+        x = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt")
+        Parse = x.read()
+        data = (re.findall(r'[0-9]+/', Parse))
+        data = [x[:-1] for x in data]
+        listToStr = ','.join([str(elem) for elem in data])
+
+        print("\n----------------Open Port on " + ipScan + "------------------\n")
+        for x in data:
+            print(x)
+        print("\n-------------------------------------------\n")
+
         try:
-            # SCANNER NP mode
-            cmd = subprocess.run(
-                ["nmap", "-Pn", "-p-", "-T4", ipScan, "--append-output", "-oN", repDir + "/Nmap_" + ipScan], stdout=f)
+            cmd = subprocess.run(["nmap", "-p", listToStr, "-A", "-T4", ipScan, "-oX", repDir + "/Nmap_port" + ipScan + ".xml"])
+            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_port" + ipScan + ".xls", repDir + "/Nmap_port" + ipScan + ".xml"])
+
         except KeyboardInterrupt:
             sys.exit()
-    # else of the scanner if
-    elif (pn != 'Y'):
+
+        #### nikto ###
+        if (Nikto == 'Y'):
+            for port in data:
+                print(Fore.YELLOW + "\nStart Nikto enumeration web service" + Style.RESET_ALL)
+                if (port == '139' or port == '445'):
+                    print(Fore.RED + "\n[*] Port " + port + " is not scannable by Nikto\n" + Style.RESET_ALL)
+                    continue
+                print(Fore.YELLOW + "\n[*] execute Nikto on port " + port + " .\n" + Style.RESET_ALL)
+                try:
+                    cmd = subprocess.run(["nikto", "-h", ipScan + ":" + port, "-Format", "txt", "-output", repDir + "/nikto_" + ipScan + ":" + port])
+                except KeyboardInterrupt:
+                    sys.exit()
+        #### nikto ###
+        if (Wapiti == 'Y'):
+            for port in data:
+                try:
+                    print(Fore.YELLOW + "Start Wapiti enumeration web service" + Style.RESET_ALL)
+                    print(Fore.YELLOW + "\n[*] execute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
+                    cmd = subprocess.run(["wapiti", "--flush-session", "-u", "http://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_http_" + ipScan + ":" + port])
+                    print(Fore.YELLOW + "\n[*] execute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
+                    cmd = subprocess.run(["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
+                except KeyboardInterrupt:
+                    sys.exit()
+        #### wapiti ###
+        if (Enum4linux == 'Y'):
+            for port in data:
+                if (port == '139' or port == '445'):
+                    try:
+                        print(Fore.YELLOW+"Start enum4linux enumeration samba service"+Style.RESET_ALL)
+                        cmd = subprocess.run(["smbmap", "-H", ipScan])
+                        cmd = subprocess.run(["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
+                        print("\n Report enum4linux saved!")
+                    except KeyboardInterrupt:
+                        sys.exit()
+
+        ### nmap script ###
+        if (script_Nmap == 'Y'):
+            try:
+                print(Fore.YELLOW + "Start NMAP Script enumeration" + Style.RESET_ALL)
+                print(Fore.BLUE + "Start Broadcast script" + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap",  "--script", "broadcast", ipScan, "-oX", repDir + "/Nmap_script_broadcast_" + ipScan + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_broadcast_" + ipScan + ".xls", repDir + "/Nmap_script_broadcast_" + ipScan + ".xml"])
+                print(Fore.BLUE + "Start Discovery script" + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap", "--script", "discovery", ipScan, "-oX", repDir + "/Nmap_script_discovery_" + ipScan + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_discovery_" + ipScan + ".xls", repDir + "/Nmap_script_discovery_" + ipScan + ".xml"])
+                print(Fore.BLUE + "Start Malware script" + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap", "--script", "malware", ipScan, "-oX", repDir + "/Nmap_script_malware_" + ipScan + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_malware_" + ipScan + ".xls", repDir + "/Nmap_script_malware_" + ipScan + ".xml"])
+                print(Fore.BLUE + "Start Exploit script" + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap", "--script", "exploit", ipScan, "-oX", repDir + "/Nmap_script_exploit_" + ipScan + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_exploit_" + ipScan + ".xls", repDir + "/Nmap_script_exploit_" + ipScan + ".xml"])
+                print(Fore.BLUE + "Start Vuln script" + Style.RESET_ALL)
+                cmd = subprocess.run(["nmap", "--script", "vuln", ipScan, "-oX", repDir + "/Nmap_script_vuln_" + ipScan + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_vuln_" + ipScan + ".xls", repDir + "/Nmap_script_vuln_" + ipScan + ".xml"])
+
+            except KeyboardInterrupt:
+                sys.exit()
         try:
-            # SCANNER NP mode
-            cmd = subprocess.run(["nmap", "-p-", "-T4", ipScan, "--append-output", "-oN", repDir + "/Nmap_" + ipScan], stdout=f)
-        except KeyboardInterrupt:
-            sys.exit()
-
-    f.close()
-    x = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt")
-    Parse = x.read()
-    data = (re.findall(r'[0-9]+/', Parse))
-    data = [x[:-1] for x in data]
-    listToStr = ','.join([str(elem) for elem in data])
-
-    print("\n----------------Open Port on " + ipScan + "------------------\n")
-    for x in data:
-        print(x)
-    print("\n-------------------------------------------\n")
-
-
-
-
-
+            os.remove("Buffer_port_"+ipScan+"_"+ repDir + ".txt")
+        except:
+            print("not remove Buffer")
 
 def finalOutMessage():
     print('''
@@ -315,7 +383,7 @@ def listOfIp():
     ####print IP list #####
 
     print(IPlist)
-
+    return res
 
 def cleanBuffer():
     ##### close buffer file #####
@@ -354,6 +422,8 @@ else:
     fastScan()
     deepScan()
     evasionScan()
-    listOfIp()
+    ip_list_up=listOfIp()
+    for elem in ip_list_up:
+        enumeration(elem)
     finalOutMessage()
     cleanBuffer()
