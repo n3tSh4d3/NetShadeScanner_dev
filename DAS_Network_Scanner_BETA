@@ -7,6 +7,7 @@ try:
     import subprocess
     import sys
     import re
+    import requests
     from colorama import Fore, Back, Style
     import fileinput
     import requests
@@ -298,25 +299,75 @@ def enumeration(a):
 
         #### nikto ###
         if (Nikto == 'Y'):
+
             for port in data:
                 print(Fore.YELLOW + "\nStart Nikto enumeration web service" + Style.RESET_ALL)
-                if (port == '139' or port == '445'):
-                    print(Fore.RED + "\n[*] Port " + port + " is not scannable by Nikto\n" + Style.RESET_ALL)
-                    continue
-                print(Fore.YELLOW + "\n[*] execute Nikto on port " + port + " .\n" + Style.RESET_ALL)
+                https_enable=''
+                http_enable=''
+                test_Url_https = "https://" + ipScan + ":" + port
+                test_Url_http = "http://" + ipScan + ":" + port
+
                 try:
-                    cmd = subprocess.run(["nikto", "-h", ipScan + ":" + port, "-Format", "txt", "-output", repDir + "/nikto_" + ipScan + ":" + port])
-                except KeyboardInterrupt:
-                    sys.exit()
-        #### nikto ###
+                    resp = requests.get(test_Url_https)
+                    print("Test connection HTTPS protocol host "+ipScan+":"+port+" : " + str(resp))
+                    if str(resp) == '<Response [200]>':
+                        https_enable='Y'
+                except:
+                    print("Test connection HTTPS protocol host "+ipScan+":"+port+" : ERROR")
+                    https_enable='N'
+
+                try:
+                    resp1 = requests.get(test_Url_http)
+                    print("Test connection HTTP protocol host "+ipScan+":"+port+" : " + str(resp1))
+                    if str(resp1) == '<Response [200]>':
+                        http_enable='Y'
+                except:
+                    print("Test connection HTTP protocol host "+ipScan+":"+port+" : ERROR")
+                    https_enable = 'N'
+
+
+                if https_enable=='Y' or http_enable=='Y':
+                    print(Fore.YELLOW + "\n[*] execute Nikto on port " + port + " .\n" + Style.RESET_ALL)
+                    try:
+                        cmd = subprocess.run(["nikto", "-h", ipScan + ":" + port, "-Format", "txt", "-output", repDir + "/nikto_" + ipScan + ":" + port])
+
+                    except KeyboardInterrupt:
+                        sys.exit()
+        #### Wapiti ###
         if (Wapiti == 'Y'):
             for port in data:
+                print(Fore.YELLOW + "\nStart Wapiti enumeration web service" + Style.RESET_ALL)
+                https_enable = ''
+                http_enable = ''
+                test_Url_https = "https://" + ipScan + ":" + port
+                test_Url_http = "http://" + ipScan + ":" + port
+
                 try:
-                    print(Fore.YELLOW + "Start Wapiti enumeration web service" + Style.RESET_ALL)
-                    print(Fore.YELLOW + "\n[*] execute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
-                    cmd = subprocess.run(["wapiti", "--flush-session", "-u", "http://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_http_" + ipScan + ":" + port])
-                    print(Fore.YELLOW + "\n[*] execute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
-                    cmd = subprocess.run(["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
+                    resp = requests.get(test_Url_https)
+                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : " + str(resp))
+                    if str(resp) == '<Response [200]>':
+                        https_enable = 'Y'
+                except:
+                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : ERROR")
+                    https_enable = 'N'
+
+                try:
+                    resp1 = requests.get(test_Url_http)
+                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : " + str(resp1))
+                    if str(resp1) == '<Response [200]>':
+                        http_enable = 'Y'
+                except:
+                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : ERROR")
+                    https_enable = 'N'
+
+                try:
+
+                    if http_enable=='Y':
+                        print(Fore.YELLOW + "\n[*] execute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
+                        cmd = subprocess.run(["wapiti", "--flush-session", "-u", "http://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_http_" + ipScan + ":" + port])
+                    if https_enable == 'Y':
+                        print(Fore.YELLOW + "\n[*] execute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
+                        cmd = subprocess.run(["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
                 except KeyboardInterrupt:
                     sys.exit()
         #### wapiti ###
@@ -336,20 +387,20 @@ def enumeration(a):
             try:
                 print(Fore.YELLOW + "Start NMAP Script enumeration" + Style.RESET_ALL)
                 print(Fore.BLUE + "Start Broadcast script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap",  "--script", "broadcast", ipScan, "-oX", repDir + "/Nmap_script_broadcast_" + ipScan + ".xml"])
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_broadcast_" + ipScan + ".xls", repDir + "/Nmap_script_broadcast_" + ipScan + ".xml"])
+                cmd = subprocess.run(["nmap",  "--script", "broadcast", ipScan, "-oN", repDir + "/Nmap_script_broadcast_" + ipScan + ".txt"])
+
                 print(Fore.BLUE + "Start Discovery script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "discovery", ipScan, "-oX", repDir + "/Nmap_script_discovery_" + ipScan + ".xml"])
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_discovery_" + ipScan + ".xls", repDir + "/Nmap_script_discovery_" + ipScan + ".xml"])
+                cmd = subprocess.run(["nmap", "--script", "discovery", ipScan, "-oN", repDir + "/Nmap_script_discovery_" + ipScan + ".txt"])
+
                 print(Fore.BLUE + "Start Malware script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "malware", ipScan, "-oX", repDir + "/Nmap_script_malware_" + ipScan + ".xml"])
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_malware_" + ipScan + ".xls", repDir + "/Nmap_script_malware_" + ipScan + ".xml"])
+                cmd = subprocess.run(["nmap", "--script", "malware", ipScan, "-oN", repDir + "/Nmap_script_malware_" + ipScan + ".txt"])
+
                 print(Fore.BLUE + "Start Exploit script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "exploit", ipScan, "-oX", repDir + "/Nmap_script_exploit_" + ipScan + ".xml"])
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_exploit_" + ipScan + ".xls", repDir + "/Nmap_script_exploit_" + ipScan + ".xml"])
+                cmd = subprocess.run(["nmap", "--script", "exploit", ipScan, "-oN", repDir + "/Nmap_script_exploit_" + ipScan + ".txt"])
+
                 print(Fore.BLUE + "Start Vuln script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "vuln", ipScan, "-oX", repDir + "/Nmap_script_vuln_" + ipScan + ".xml"])
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_script_vuln_" + ipScan + ".xls", repDir + "/Nmap_script_vuln_" + ipScan + ".xml"])
+                cmd = subprocess.run(["nmap", "--script", "vuln", ipScan, "-oN", repDir + "/Nmap_script_vuln_" + ipScan + ".txt"])
+
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -381,8 +432,9 @@ def listOfIp():
     IPlist = '\n'.join([str(elem) for elem in res])
 
     ####print IP list #####
-
+    print("\n----------- Host UP------------")
     print(IPlist)
+    print("-------------------------------\n")
     return res
 
 def cleanBuffer():
