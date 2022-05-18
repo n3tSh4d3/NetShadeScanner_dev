@@ -300,34 +300,37 @@ def enumeration(a):
         except KeyboardInterrupt:
             sys.exit()
 
-        #### nikto ###
-        if (Nikto == 'Y'):
+        for port in data:
 
-            for port in data:
+            ### test HTTP/HTTPS Service on port
+
+            https_enable = ''
+            http_enable = ''
+            test_Url_https = "https://" + ipScan + ":" + port
+            test_Url_http = "http://" + ipScan + ":" + port
+
+            try:
+                resp = requests.get(test_Url_https, timeout=10)
+                print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : " + str(resp))
+                if str(resp) == '<Response [200]>':
+                    https_enable = 'Y'
+            except:
+                print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : ERROR")
+                https_enable = 'N'
+
+            try:
+                resp1 = requests.get(test_Url_http, timeout=10)
+                print("Test connection HTTP protocol host " + ipScan + ":" + port + " : " + str(resp1))
+                if str(resp1) == '<Response [200]>':
+                    http_enable = 'Y'
+            except:
+                print("Test connection HTTP protocol host " + ipScan + ":" + port + " : ERROR")
+                https_enable = 'N'
+
+            #### nikto ###
+            if (Nikto == 'Y'):
+
                 print(Fore.YELLOW + "\nStart Nikto enumeration web service" + Style.RESET_ALL)
-                https_enable=''
-                http_enable=''
-                test_Url_https = "https://" + ipScan + ":" + port
-                test_Url_http = "http://" + ipScan + ":" + port
-
-                try:
-                    resp = requests.get(test_Url_https, timeout=10)
-                    print("Test connection HTTPS protocol host "+ipScan+":"+port+" : " + str(resp))
-                    if str(resp) == '<Response [200]>':
-                        https_enable='Y'
-                except:
-                    print("Test connection HTTPS protocol host "+ipScan+":"+port+" : ERROR")
-                    https_enable='N'
-
-                try:
-                    resp1 = requests.get(test_Url_http,timeout=10)
-                    print("Test connection HTTP protocol host "+ipScan+":"+port+" : " + str(resp1))
-                    if str(resp1) == '<Response [200]>':
-                        http_enable='Y'
-                except:
-                    print("Test connection HTTP protocol host "+ipScan+":"+port+" : ERROR")
-                    https_enable = 'N'
-
 
                 if https_enable=='Y' or http_enable=='Y':
                     print(Fore.YELLOW + "\n[*] execute Nikto on port " + port + " .\n" + Style.RESET_ALL)
@@ -336,33 +339,10 @@ def enumeration(a):
 
                     except KeyboardInterrupt:
                         sys.exit()
-        #### Wapiti ###
-        if (Wapiti == 'Y'):
-            for port in data:
+
+            #### Wapiti ###
+            if (Wapiti == 'Y'):
                 print(Fore.YELLOW + "\nStart Wapiti enumeration web service" + Style.RESET_ALL)
-                https_enable = ''
-                http_enable = ''
-                test_Url_https = "https://" + ipScan + ":" + port
-                test_Url_http = "http://" + ipScan + ":" + port
-
-                try:
-                    resp = requests.get(test_Url_https,timeout=10)
-                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : " + str(resp))
-                    if str(resp) == '<Response [200]>':
-                        https_enable = 'Y'
-                except:
-                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : ERROR")
-                    https_enable = 'N'
-
-                try:
-                    resp1 = requests.get(test_Url_http,timeout=10)
-                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : " + str(resp1))
-                    if str(resp1) == '<Response [200]>':
-                        http_enable = 'Y'
-                except:
-                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : ERROR")
-                    https_enable = 'N'
-
                 try:
 
                     if http_enable=='Y':
@@ -373,54 +353,31 @@ def enumeration(a):
                         cmd = subprocess.run(["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
                 except KeyboardInterrupt:
                     sys.exit()
-        #### Arachni ###
-        if (arachni == 'Y'):
-            for port in data:
+
+            #### Arachni ###
+            if (arachni == 'Y'):
                 print(Fore.YELLOW + "\nStart Arachni Vulnerability Scan web service" + Style.RESET_ALL)
-                https_enable = ''
-                http_enable = ''
-                test_Url_https = "https://" + ipScan + ":" + port
-                test_Url_http = "http://" + ipScan + ":" + port
-
-                try:
-                    resp = requests.get(test_Url_https,timeout=10)
-                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : " + str(resp))
-                    if str(resp) == '<Response [200]>':
-                        https_enable = 'Y'
-                except:
-                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : ERROR")
-                    https_enable = 'N'
-
-                try:
-                    resp1 = requests.get(test_Url_http,timeout=10)
-                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : " + str(resp1))
-                    if str(resp1) == '<Response [200]>':
-                        http_enable = 'Y'
-                except:
-                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : ERROR")
-                    https_enable = 'N'
 
                 try:          #  arachni_reporter ../../example.com.afr --reporter=html:outfile=../../my_report.html.zip
 
                     if http_enable=='Y':
                         print(Fore.YELLOW + "\n[*] execute Arachni (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
-                        cmd = subprocess.run(["mkdir", repDir + "/Arachni_http_" + ipScan + ":" + port])
-                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "http://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".afr"])
-                        cmd = subprocess.run(["./arachni/bin/arachni_reporter",repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".afr" , "--reporter=html:outfile="+ repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".zip"])
-                        cmd = subprocess.run(["unzip",repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".zip"])
+                        cmd = subprocess.run(["mkdir", repDir + "/Arachni_http_" + ipScan + "_" + port])
+                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "http://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".afr"])
+                        cmd = subprocess.run(["./arachni/bin/arachni_reporter",repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".afr" , "--reporter=html:outfile="+ repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".zip"])
+                        cmd = subprocess.run(["unzip", repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".zip","-d",repDir + "/Arachni_http_" + ipScan + "_" + port])
                     if https_enable == 'Y':
                         print(
                             Fore.YELLOW + "\n[*] execute Arachni (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
-                        cmd = subprocess.run(["mkdir", repDir + "/Arachni_https_" + ipScan + ":" + port])
-                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "https://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".afr"])
-                        cmd = subprocess.run(["./arachni/bin/arachni_reporter", repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".afr", "--reporter=html:outfile=" + repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".zip"])
-                        cmd = subprocess.run(["unzip", repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".zip"])
+                        cmd = subprocess.run(["mkdir", repDir + "/Arachni_https_" + ipScan + "_" + port])
+                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "https://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".afr"])
+                        cmd = subprocess.run(["./arachni/bin/arachni_reporter", repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".afr", "--reporter=html:outfile=" + repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".zip"])
+                        cmd = subprocess.run(["unzip", repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".zip","-d",repDir + "/Arachni_https_" + ipScan + "_" + port])
                 except KeyboardInterrupt:
                     sys.exit()
 
-        #### emun4linux ###
-        if (Enum4linux == 'Y'):
-            for port in data:
+            #### emun4linux ###
+            if (Enum4linux == 'Y'):
                 if (port == '139' or port == '445'):
                     try:
                         print(Fore.YELLOW+"Start enum4linux enumeration samba service"+Style.RESET_ALL)
