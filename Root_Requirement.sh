@@ -5,6 +5,7 @@ apt install -y pip git nmap nikto smbmap wapiti ldap-utils polenum smbclient wge
 pip install python-libnmap XlsxWriter impacket ldap3 PyYAML>=5.1;
 pip3 install schedule;
 
+
 #download script collection NSE Nmap
 echo "\nDownload Script collelction for Nmap \n";
 git clone https://github.com/n3tSh4d3/Nmap_Script_Collection.git;
