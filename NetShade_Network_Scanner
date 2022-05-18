@@ -79,7 +79,7 @@ if evasion == 'Y':
     print(Fore.BLUE + "Source port DNS mode:(Y/N)" + Style.RESET_ALL)
     SourcePort = input()
 
-print(Fore.GREEN+"[*] The next part of the tool will attempt to enumerate the services found in the NMAP scan" + Style.RESET_ALL)
+print(Fore.LIGHTBLUE_EX+"[*] The next part of the tool will attempt to enumerate the services found in the NMAP scan" + Style.RESET_ALL)
 print(Fore.GREEN+"Enumeration mode? (Y/N)"+ Style.RESET_ALL)
 enum_mode = input()
 if enum_mode =='Y':
@@ -89,12 +89,14 @@ if enum_mode =='Y':
     Nikto = input()
     print(Fore.BLUE + "Do you want use WAPITI? (Y/N)" + Style.RESET_ALL)
     Wapiti = input()
+    print(Fore.BLUE + "Do you want use ARACHNI? (Y/N)" + Style.RESET_ALL)
+    arachni = input()
     print(Fore.BLUE + "Do you want use ENUM4LINUX? (Y/N)" + Style.RESET_ALL)
     Enum4linux = input()
     print(Fore.BLUE + "Do you want test the NMAP scripts? (Y/N)" + Style.RESET_ALL)
     script_Nmap = input()
 
-print(Fore.MAGENTA + "[*] The next part of the tool will attempt to scheduling the job" + Style.RESET_ALL)
+print(Fore.MAGENTA + "The next part of the tool will attempt to scheduling the job" + Style.RESET_ALL)
 print(Fore.MAGENTA + "Do you want to schedule the work? (Y/N)" + Style.RESET_ALL)
 Scheduling_enable = input()
 
@@ -217,7 +219,7 @@ Start Evasion IDS/Firewall Scan Mode
 ---Fragmentary mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"], stdout=z)
+                    ["sudo", "nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
 
@@ -226,7 +228,7 @@ Start Evasion IDS/Firewall Scan Mode
 ---Badsum mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["nmap", "--badsum", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"], stdout=z)
+                    ["sudo","nmap", "--badsum", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
 
@@ -234,7 +236,7 @@ Start Evasion IDS/Firewall Scan Mode
                 print(Fore.RED + '''
 ---Data length mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--data-length", "25", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
+                cmd = subprocess.run(["sudo","nmap", "--data-length", "25", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
 
@@ -243,7 +245,7 @@ Start Evasion IDS/Firewall Scan Mode
 ---Decoy mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["nmap", "-D", "RND:5", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"], stdout=z)
+                    ["sudo","nmap", "-D", "RND:5", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
 
@@ -251,7 +253,7 @@ Start Evasion IDS/Firewall Scan Mode
                 print(Fore.RED + '''
 ---Source port DNS mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--source-port", "53", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
+                cmd = subprocess.run(["sudo","nmap", "--source-port", "53", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
         except KeyboardInterrupt:
             sys.exit()
@@ -281,6 +283,7 @@ def enumeration(a):
         f.close()
         x = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt")
         Parse = x.read()
+        data = ''
         data = (re.findall(r'[0-9]+/', Parse))
         data = [x[:-1] for x in data]
         listToStr = ','.join([str(elem) for elem in data])
@@ -291,8 +294,8 @@ def enumeration(a):
         print("\n-------------------------------------------\n")
 
         try:
-            cmd = subprocess.run(["nmap", "-p", listToStr, "-A", "-T4", ipScan, "-oX", repDir + "/Nmap_port" + ipScan + ".xml"])
-            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_port" + ipScan + ".xls", repDir + "/Nmap_port" + ipScan + ".xml"])
+            cmd = subprocess.run(["nmap", "-p", listToStr, "-A", "-T4", ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".xls", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
 
         except KeyboardInterrupt:
             sys.exit()
@@ -308,7 +311,7 @@ def enumeration(a):
                 test_Url_http = "http://" + ipScan + ":" + port
 
                 try:
-                    resp = requests.get(test_Url_https)
+                    resp = requests.get(test_Url_https, timeout=10)
                     print("Test connection HTTPS protocol host "+ipScan+":"+port+" : " + str(resp))
                     if str(resp) == '<Response [200]>':
                         https_enable='Y'
@@ -317,7 +320,7 @@ def enumeration(a):
                     https_enable='N'
 
                 try:
-                    resp1 = requests.get(test_Url_http)
+                    resp1 = requests.get(test_Url_http,timeout=10)
                     print("Test connection HTTP protocol host "+ipScan+":"+port+" : " + str(resp1))
                     if str(resp1) == '<Response [200]>':
                         http_enable='Y'
@@ -343,7 +346,7 @@ def enumeration(a):
                 test_Url_http = "http://" + ipScan + ":" + port
 
                 try:
-                    resp = requests.get(test_Url_https)
+                    resp = requests.get(test_Url_https,timeout=10)
                     print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : " + str(resp))
                     if str(resp) == '<Response [200]>':
                         https_enable = 'Y'
@@ -352,7 +355,7 @@ def enumeration(a):
                     https_enable = 'N'
 
                 try:
-                    resp1 = requests.get(test_Url_http)
+                    resp1 = requests.get(test_Url_http,timeout=10)
                     print("Test connection HTTP protocol host " + ipScan + ":" + port + " : " + str(resp1))
                     if str(resp1) == '<Response [200]>':
                         http_enable = 'Y'
@@ -370,13 +373,57 @@ def enumeration(a):
                         cmd = subprocess.run(["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
                 except KeyboardInterrupt:
                     sys.exit()
+        #### Arachni ###
+        if (arachni == 'Y'):
+            for port in data:
+                print(Fore.YELLOW + "\nStart Arachni Vulnerability Scan web service" + Style.RESET_ALL)
+                https_enable = ''
+                http_enable = ''
+                test_Url_https = "https://" + ipScan + ":" + port
+                test_Url_http = "http://" + ipScan + ":" + port
+
+                try:
+                    resp = requests.get(test_Url_https,timeout=10)
+                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : " + str(resp))
+                    if str(resp) == '<Response [200]>':
+                        https_enable = 'Y'
+                except:
+                    print("Test connection HTTPS protocol host " + ipScan + ":" + port + " : ERROR")
+                    https_enable = 'N'
+
+                try:
+                    resp1 = requests.get(test_Url_http,timeout=10)
+                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : " + str(resp1))
+                    if str(resp1) == '<Response [200]>':
+                        http_enable = 'Y'
+                except:
+                    print("Test connection HTTP protocol host " + ipScan + ":" + port + " : ERROR")
+                    https_enable = 'N'
+
+                try:          #  arachni_reporter ../../example.com.afr --reporter=html:outfile=../../my_report.html.zip
+
+                    if http_enable=='Y':
+                        print(Fore.YELLOW + "\n[*] execute Arachni (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
+                        cmd = subprocess.run(["mkdir", repDir + "/Arachni_http_" + ipScan + ":" + port])
+                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "http://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".afr"])
+                        cmd = subprocess.run(["./arachni/bin/arachni_reporter",repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".afr" , "--reporter=html:outfile="+ repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".zip"])
+                        cmd = subprocess.run(["unzip",repDir + "/Arachni_http_" + ipScan + ":" + port + "/Arachni_http_" + ipScan + ":" + port + ".zip"])
+                    if https_enable == 'Y':
+                        print(
+                            Fore.YELLOW + "\n[*] execute Arachni (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
+                        cmd = subprocess.run(["mkdir", repDir + "/Arachni_https_" + ipScan + ":" + port])
+                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "https://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".afr"])
+                        cmd = subprocess.run(["./arachni/bin/arachni_reporter", repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".afr", "--reporter=html:outfile=" + repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".zip"])
+                        cmd = subprocess.run(["unzip", repDir + "/Arachni_https_" + ipScan + ":" + port + "/Arachni_https_" + ipScan + ":" + port + ".zip"])
+                except KeyboardInterrupt:
+                    sys.exit()
+
         #### emun4linux ###
         if (Enum4linux == 'Y'):
             for port in data:
                 if (port == '139' or port == '445'):
                     try:
                         print(Fore.YELLOW+"Start enum4linux enumeration samba service"+Style.RESET_ALL)
-                        cmd = subprocess.run(["smbmap", "-H", ipScan])
                         cmd = subprocess.run(["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
                         print("\n Report enum4linux saved!")
                     except KeyboardInterrupt:
