@@ -56,12 +56,16 @@ var_2 = input()
 print(Fore.GREEN + "Quick scan (not port scanner) (Y/N)" + Style.RESET_ALL)
 fast = input()
 
-print(Fore.GREEN + "Deep network scan? (Y/N)" + Style.RESET_ALL)
+print(Fore.GREEN + "Deep network scan and bruteforce common password on service discovered? (Y/N)" + Style.RESET_ALL)
 deep = input()
 
 if deep == 'Y':
     print(Fore.GREEN + "Deep Network Scan mode; Do you want use -Pn option ? (Y/N)" + Style.RESET_ALL)
     pn = input()
+
+    print(Fore.LIGHTGREEN_EX + "do you want to test common passwords on discovered services? (Y/N)" + Style.RESET_ALL)
+    bruteforce = input()
+
 
 print(Fore.GREEN + "IDS / FireWall evasion mode?(Y/N)" + Style.RESET_ALL)
 evasion = input()
@@ -204,6 +208,11 @@ def deepScan():
             except KeyboardInterrupt:
                 sys.exit()
 
+            if bruteforce == 'Y':
+                try:
+                    cmd = subprocess.run(['ncrack',"-vv","-iX", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml", "-g", "to=30", "-f", "-U", "dictionary/user_small.txt", "-P", "dictionary/pass_small.txt", "-oN", repDir + "/Ncrack_password_discovered_" + var_1 + ".txt"])
+                except KeyboardInterrupt:
+                    sys.exit()
 
 def evasionScan():
     ####### enter the Network-scanner EVASION MODE ########
