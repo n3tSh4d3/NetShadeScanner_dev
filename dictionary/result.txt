@@ -1,0 +1,4 @@
+# Ncrack 0.7 scan initiated Fri May 20 19:09:33 2022 as: ncrack -iX test_port_scanner.xml -d10 -g CL=1,at=5,cd=100ms,cr=10,to=60 -f -U test_user.txt -P test_pass.txt -oN result.txt
+Discovered credentials on vnc://192.168.1.243:5900 'root' 'password'
+Discovered credentials on netbios-ssn://192.168.1.243:445 'msfadmin' 'msfadmin'
+Discovered credentials on netbios-ssn://192.168.1.243:139 'msfadmin' 'msfadmin'
