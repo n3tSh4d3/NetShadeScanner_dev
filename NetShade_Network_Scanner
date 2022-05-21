@@ -19,8 +19,6 @@ try:
 except ModuleNotFoundError:
     print('run the requirements.txt file to have all the requirements satisfied')
 
-
-
 print(Fore.RED + '''
 
     _   __    ______  ______   _____    __  __    ___     ____     ______
@@ -60,12 +58,11 @@ print(Fore.GREEN + "Deep network scan and bruteforce common password on service 
 deep = input()
 
 if deep == 'Y':
-    print(Fore.GREEN + "Deep Network Scan mode; Do you want use -Pn option ? (Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTGREEN_EX + "Deep Network Scan mode; Do you want use -Pn option ? (Y/N)" + Style.RESET_ALL)
     pn = input()
 
-    print(Fore.LIGHTGREEN_EX + "do you want to test common passwords on discovered services? (Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTGREEN_EX + "Do you want to test common passwords on discovered services? (Y/N)" + Style.RESET_ALL)
     bruteforce = input()
-
 
 print(Fore.GREEN + "IDS / FireWall evasion mode?(Y/N)" + Style.RESET_ALL)
 evasion = input()
@@ -83,13 +80,14 @@ if evasion == 'Y':
     print(Fore.BLUE + "Source port DNS mode:(Y/N)" + Style.RESET_ALL)
     SourcePort = input()
 
-print(Fore.LIGHTBLUE_EX+"[*] The next part of the tool will attempt to enumerate the services found in the NMAP scan" + Style.RESET_ALL)
-print(Fore.GREEN+"Enumeration mode? (Y/N)"+ Style.RESET_ALL)
+print(
+    Fore.LIGHTBLUE_EX + "[*] The next part of the tool will attempt to enumerate the services found in the NMAP scan" + Style.RESET_ALL)
+print(Fore.GREEN + "Enumeration mode? (Y/N)" + Style.RESET_ALL)
 enum_mode = input()
-if enum_mode =='Y':
+if enum_mode == 'Y':
     print(Fore.BLUE + "Do you want use -Pn option for port scanner? (Y/N)" + Style.RESET_ALL)
     pn_enum = input()
-    print(Fore.BLUE+"Do you want use NIKTO? (Y/N)"+ Style.RESET_ALL)
+    print(Fore.BLUE + "Do you want use NIKTO? (Y/N)" + Style.RESET_ALL)
     Nikto = input()
     print(Fore.BLUE + "Do you want use WAPITI? (Y/N)" + Style.RESET_ALL)
     Wapiti = input()
@@ -97,6 +95,10 @@ if enum_mode =='Y':
     arachni = input()
     print(Fore.BLUE + "Do you want use ENUM4LINUX? (Y/N)" + Style.RESET_ALL)
     Enum4linux = input()
+    if Enum4linux == 'Y':
+        print(
+            Fore.LIGHTBLUE_EX + "Do you want to test common passwords on discovered SAMBA services? (Y/N)" + Style.RESET_ALL)
+        bruteforce_SMB = input()
     print(Fore.BLUE + "Do you want test the NMAP scripts? (Y/N)" + Style.RESET_ALL)
     script_Nmap = input()
 
@@ -208,14 +210,19 @@ def deepScan():
             except KeyboardInterrupt:
                 sys.exit()
 
-            if bruteforce == 'Y':
-                try:
-                    cmd = subprocess.run(['ncrack',"-vv","-iX", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml", "-g", "to=30", "-f", "-U", "dictionary/user_small.txt", "-P", "dictionary/pass_small.txt", "-oN", repDir + "/Ncrack_password_discovered_" + var_1 + ".txt"])
-                except KeyboardInterrupt:
-                    sys.exit()
+        if bruteforce == 'Y':
+            try:
+                print(Fore.RED + "Start Bruteforce Discovery Username and Password--- please wait!" + Style.RESET_ALL)
+                cmd = subprocess.run(
+                    ['ncrack', "-vvv", "-m", "telnet:to=10", "-m", "mysql:ssl=yes,to=20", "-iX",
+                     repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml", "-g", "to=30", "-f", "-U",
+                     "dictionary/user_small.txt", "-P", "dictionary/pass_small.txt", "-oN",
+                     repDir + "/Ncrack_password_discovered_" + var_1 + ".txt"])
+            except KeyboardInterrupt:
+                sys.exit()
+
 
 def evasionScan():
-
     ####### enter the Network-scanner EVASION MODE ########
 
     if evasion == 'Y':
@@ -229,52 +236,64 @@ Start Evasion IDS/Firewall Scan Mode
 ---Fragmentary mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["sudo", "nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"], stdout=z)
+                    ["sudo", "nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"],
+                    stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
 
             if Badsum == 'Y':
                 print(Fore.RED + '''
 ---Badsum mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["sudo","nmap", "--badsum", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"], stdout=z)
+                    ["sudo", "nmap", "--badsum", var_nmap, "-oX",
+                     repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
 
             if Datalength == 'Y':
                 print(Fore.RED + '''
 ---Data length mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
-                cmd = subprocess.run(["sudo","nmap", "--data-length", "25", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
+                cmd = subprocess.run(["sudo", "nmap", "--data-length", "25", var_nmap, "-oX",
+                                      repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
 
             if Decoy == 'Y':
                 print(Fore.RED + '''
 ---Decoy mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["sudo","nmap", "-D", "RND:5", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"], stdout=z)
+                    ["sudo", "nmap", "-D", "RND:5", var_nmap, "-oX",
+                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
-                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
 
             if SourcePort == 'Y':
                 print(Fore.RED + '''
 ---Source port DNS mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
-                cmd = subprocess.run(["sudo","nmap", "--source-port", "53", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls", repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
+                cmd = subprocess.run(["sudo", "nmap", "--source-port", "53", var_nmap, "-oX",
+                                      repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
+                cmd = subprocess.run(
+                    ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls",
+                     repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
         except KeyboardInterrupt:
             sys.exit()
 
+
 def enumeration(a):
-    ipScan=a
+    ipScan = a
     if (enum_mode == 'Y'):
 
-        print(Fore.RED+"Scanning host : "+ipScan+Style.RESET_ALL)
+        print(Fore.RED + "Scanning host : " + ipScan + Style.RESET_ALL)
 
-        f = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt", "a")
+        f = open("Buffer_port_" + ipScan + "_" + repDir + ".txt", "a")
 
         if (pn_enum == 'Y'):
             try:
@@ -291,7 +310,7 @@ def enumeration(a):
                 sys.exit()
 
         f.close()
-        x = open("Buffer_port_"+ipScan+"_"+ repDir + ".txt")
+        x = open("Buffer_port_" + ipScan + "_" + repDir + ".txt")
         Parse = x.read()
         data = ''
         data = (re.findall(r'[0-9]+/', Parse))
@@ -304,8 +323,10 @@ def enumeration(a):
         print("\n-------------------------------------------\n")
 
         try:
-            cmd = subprocess.run(["nmap", "-p", listToStr, "-A", "-T4", ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
-            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".xls", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+            cmd = subprocess.run(
+                ["nmap", "-p", listToStr, "-A", "-T4", ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".xls",
+                                  repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
 
         except KeyboardInterrupt:
             sys.exit()
@@ -342,10 +363,11 @@ def enumeration(a):
 
                 print(Fore.YELLOW + "\nStart Nikto enumeration web service" + Style.RESET_ALL)
 
-                if https_enable=='Y' or http_enable=='Y':
+                if https_enable == 'Y' or http_enable == 'Y':
                     print(Fore.YELLOW + "\n[*] execute Nikto on port " + port + " .\n" + Style.RESET_ALL)
                     try:
-                        cmd = subprocess.run(["nikto", "-h", ipScan + ":" + port, "-Format", "txt", "-output", repDir + "/nikto_" + ipScan + ":" + port])
+                        cmd = subprocess.run(["nikto", "-h", ipScan + ":" + port, "-Format", "txt", "-output",
+                                              repDir + "/nikto_" + ipScan + ":" + port])
 
                     except KeyboardInterrupt:
                         sys.exit()
@@ -355,12 +377,18 @@ def enumeration(a):
                 print(Fore.YELLOW + "\nStart Wapiti enumeration web service" + Style.RESET_ALL)
                 try:
 
-                    if http_enable=='Y':
-                        print(Fore.YELLOW + "\n[*] execute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
-                        cmd = subprocess.run(["wapiti", "--flush-session", "-u", "http://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_http_" + ipScan + ":" + port])
+                    if http_enable == 'Y':
+                        print(
+                            Fore.YELLOW + "\n[*] execute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
+                        cmd = subprocess.run(
+                            ["wapiti", "--flush-session", "-u", "http://" + ipScan + ":" + port + "/", "-f", "txt",
+                             "-o", repDir + "/wapiti_http_" + ipScan + ":" + port])
                     if https_enable == 'Y':
-                        print(Fore.YELLOW + "\n[*] execute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
-                        cmd = subprocess.run(["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt", "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
+                        print(
+                            Fore.YELLOW + "\n[*] execute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
+                        cmd = subprocess.run(
+                            ["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt",
+                             "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
                 except KeyboardInterrupt:
                     sys.exit()
 
@@ -368,21 +396,34 @@ def enumeration(a):
             if (arachni == 'Y'):
                 print(Fore.YELLOW + "\nStart Arachni Vulnerability Scan web service" + Style.RESET_ALL)
 
-                try:          #  arachni_reporter ../../example.com.afr --reporter=html:outfile=../../my_report.html.zip
+                try:  # arachni_reporter ../../example.com.afr --reporter=html:outfile=../../my_report.html.zip
 
-                    if http_enable=='Y':
-                        print(Fore.YELLOW + "\n[*] execute Arachni (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
+                    if http_enable == 'Y':
+                        print(
+                            Fore.YELLOW + "\n[*] execute Arachni (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
                         cmd = subprocess.run(["mkdir", repDir + "/Arachni_http_" + ipScan + "_" + port])
-                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "http://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".afr"])
-                        cmd = subprocess.run(["./arachni/bin/arachni_reporter",repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".afr" , "--reporter=html:outfile="+ repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".zip"])
-                        cmd = subprocess.run(["unzip", repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".zip","-d",repDir + "/Arachni_http_" + ipScan + "_" + port])
+                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains",
+                                              "http://" + ipScan + ":" + port,
+                                              "--report-save-path=" + repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".afr"])
+                        cmd = subprocess.run(["./arachni/bin/arachni_reporter",
+                                              repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".afr",
+                                              "--reporter=html:outfile=" + repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".zip"])
+                        cmd = subprocess.run(["unzip",
+                                              repDir + "/Arachni_http_" + ipScan + "_" + port + "/Arachni_http_" + ipScan + "_" + port + ".zip",
+                                              "-d", repDir + "/Arachni_http_" + ipScan + "_" + port])
                     if https_enable == 'Y':
                         print(
                             Fore.YELLOW + "\n[*] execute Arachni (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
                         cmd = subprocess.run(["mkdir", repDir + "/Arachni_https_" + ipScan + "_" + port])
-                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains", "https://" + ipScan + ":" + port, "--report-save-path=" + repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".afr"])
-                        cmd = subprocess.run(["./arachni/bin/arachni_reporter", repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".afr", "--reporter=html:outfile=" + repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".zip"])
-                        cmd = subprocess.run(["unzip", repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".zip","-d",repDir + "/Arachni_https_" + ipScan + "_" + port])
+                        cmd = subprocess.run(["./arachni/bin/arachni", "--output-verbose", "--scope-include-subdomains",
+                                              "https://" + ipScan + ":" + port,
+                                              "--report-save-path=" + repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".afr"])
+                        cmd = subprocess.run(["./arachni/bin/arachni_reporter",
+                                              repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".afr",
+                                              "--reporter=html:outfile=" + repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".zip"])
+                        cmd = subprocess.run(["unzip",
+                                              repDir + "/Arachni_https_" + ipScan + "_" + port + "/Arachni_https_" + ipScan + "_" + port + ".zip",
+                                              "-d", repDir + "/Arachni_https_" + ipScan + "_" + port])
                 except KeyboardInterrupt:
                     sys.exit()
 
@@ -390,38 +431,57 @@ def enumeration(a):
             if (Enum4linux == 'Y'):
                 if (port == '139' or port == '445'):
                     try:
-                        print(Fore.YELLOW+"Start enum4linux enumeration samba service"+Style.RESET_ALL)
-                        cmd = subprocess.run(["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
+                        print(Fore.YELLOW + "Start enum4linux enumeration samba service" + Style.RESET_ALL)
+                        cmd = subprocess.run(
+                            ["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
                         print("\n Report enum4linux saved!")
                     except KeyboardInterrupt:
                         sys.exit()
+
+                    if bruteforce_SMB == 'Y':
+                        try:
+                            cmd = subprocess.run(
+                                ["./enum4linux/enum4linux.py", "-U", ipScan, "|", "grep", "username", "|", "awk",
+                                 "'{print $2}'>" + repDir + "User_SMB_" + ipScan + ".txt"])
+                            cmd = subprocess.run(['ncrack', "-vv", ipScan, "-p", "smb", "-g", "to=30", "-f", "-U",
+                                                  repDir + "User_SMB_" + ipScan + ".txt", "-P",
+                                                  "dictionary/pass_small.txt", "-oN",
+                                                  repDir + "/Ncrack_SMB_pass_discovered_" + ipScan + ".txt"])
+                        except KeyboardInterrupt:
+                            sys.exit()
 
         ### nmap script ###
         if (script_Nmap == 'Y'):
             try:
                 print(Fore.YELLOW + "Start NMAP Script enumeration" + Style.RESET_ALL)
                 print(Fore.BLUE + "Start Broadcast script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap",  "--script", "broadcast", ipScan, "-oN", repDir + "/Nmap_script_broadcast_" + ipScan + ".txt"])
+                cmd = subprocess.run(["nmap", "--script", "broadcast", ipScan, "-oN",
+                                      repDir + "/Nmap_script_broadcast_" + ipScan + ".txt"])
 
                 print(Fore.BLUE + "Start Discovery script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "discovery", ipScan, "-oN", repDir + "/Nmap_script_discovery_" + ipScan + ".txt"])
+                cmd = subprocess.run(["nmap", "--script", "discovery", ipScan, "-oN",
+                                      repDir + "/Nmap_script_discovery_" + ipScan + ".txt"])
 
                 print(Fore.BLUE + "Start Malware script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "malware", ipScan, "-oN", repDir + "/Nmap_script_malware_" + ipScan + ".txt"])
+                cmd = subprocess.run(
+                    ["nmap", "--script", "malware", ipScan, "-oN", repDir + "/Nmap_script_malware_" + ipScan + ".txt"])
 
                 print(Fore.BLUE + "Start Exploit script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "exploit", ipScan, "-oN", repDir + "/Nmap_script_exploit_" + ipScan + ".txt"])
+                cmd = subprocess.run(
+                    ["nmap", "--script", "exploit", ipScan, "-oN", repDir + "/Nmap_script_exploit_" + ipScan + ".txt"])
 
                 print(Fore.BLUE + "Start Vuln script" + Style.RESET_ALL)
-                cmd = subprocess.run(["nmap", "--script", "vuln", ipScan, "-oN", repDir + "/Nmap_script_vuln_" + ipScan + ".txt"])
+                cmd = subprocess.run(
+                    ["nmap", "--script", "vuln", ipScan, "-oN", repDir + "/Nmap_script_vuln_" + ipScan + ".txt"])
 
 
             except KeyboardInterrupt:
                 sys.exit()
         try:
-            os.remove("Buffer_port_"+ipScan+"_"+ repDir + ".txt")
+            os.remove("Buffer_port_" + ipScan + "_" + repDir + ".txt")
         except:
             print("not remove Buffer")
+
 
 def finalOutMessage():
     print('''
@@ -450,6 +510,7 @@ def listOfIp():
     print(IPlist)
     print("-------------------------------\n")
     return res
+
 
 def cleanBuffer():
     ##### close buffer file #####
@@ -490,7 +551,7 @@ else:
     fastScan()
     deepScan()
     evasionScan()
-    ip_list_up=listOfIp()
+    ip_list_up = listOfIp()
     for elem in ip_list_up:
         enumeration(elem)
     finalOutMessage()
