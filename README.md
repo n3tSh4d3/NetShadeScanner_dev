@@ -67,6 +67,6 @@ myuser ALL=(ALL) NOPASSWD: ALL
 ```
 For other types of scans and / or enumerations it is not necessary to be an administrator.
 *****************************************************************
-Example of a JOB ready to be started
+Example of a JOB ready to be started...
 
 ![alt text](Screen_JOB.png) 
