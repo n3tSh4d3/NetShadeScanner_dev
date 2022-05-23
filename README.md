@@ -22,3 +22,9 @@ myuser@host: sudo visudo
 add follow string 
 
 myuser ALL=(ALL) NOPASSWD: ALL
+
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
