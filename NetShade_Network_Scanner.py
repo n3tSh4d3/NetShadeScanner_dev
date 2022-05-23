@@ -383,11 +383,12 @@ def enumeration(a):
             #### nikto ###
             if (Nikto == 'Y'):
 
-                print(Fore.CYAN + '''
----"Start Nikto enumeration web service,  please wait!
-                                ''' + Style.RESET_ALL)
+
                 if https_enable == 'Y' or http_enable == 'Y':
-                    print(Fore.YELLOW + "\n[*] execute Nikto on port " + port + " .\n" + Style.RESET_ALL)
+                    print(Fore.CYAN + '''
+                    ---"Start Nikto enumeration web service,  please wait!
+                                                    ''' + Style.RESET_ALL)
+                    print(Fore.YELLOW + "\nExecute Nikto on port " + port + " .\n" + Style.RESET_ALL)
                     try:
                         cmd = subprocess.run(["nikto", "-h", ipScan + ":" + port, "-Format", "txt", "-output",
                                               repDir + "/nikto_" + ipScan + ":" + port])
@@ -398,19 +399,22 @@ def enumeration(a):
             #### Wapiti ###
             if (Wapiti == 'Y'):
 
-                print(Fore.CYAN + '''
----"Start Wapiti enumeration web service,  please wait!
-                                 ''' + Style.RESET_ALL)
                 try:
                     if http_enable == 'Y':
+                        print(Fore.CYAN + '''
+                        ---"Start Wapiti enumeration web service,  please wait!
+                                                         ''' + Style.RESET_ALL)
                         print(
-                            Fore.YELLOW + "\n[*] execute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
+                            Fore.YELLOW + "\nExecute Wapiti (HTTP mode) on port " + port + " .\n" + Style.RESET_ALL)
                         cmd = subprocess.run(
                             ["wapiti", "--flush-session", "-u", "http://" + ipScan + ":" + port + "/", "-f", "txt",
                              "-o", repDir + "/wapiti_http_" + ipScan + ":" + port])
                     if https_enable == 'Y':
+                        print(Fore.CYAN + '''
+                        ---"Start Wapiti enumeration web service,  please wait!
+                                                         ''' + Style.RESET_ALL)
                         print(
-                            Fore.YELLOW + "\n[*] execute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
+                            Fore.YELLOW + "\nExecute Wapiti (HTTPS mode) on port " + port + " .\n" + Style.RESET_ALL)
                         cmd = subprocess.run(
                             ["wapiti", "--flush-session", "-u", "https://" + ipScan + ":" + port + "/", "-f", "txt",
                              "-o", repDir + "/wapiti_https_" + ipScan + ":" + port])
@@ -656,6 +660,7 @@ def listOfIp():
     print(Fore.MAGENTA+"\n----------- Host UP------------"+Style.RESET_ALL)
     print(Fore.LIGHTRED_EX+IPlist+Style.RESET_ALL)
     print(Fore.MAGENTA+"-------------------------------\n"+Style.RESET_ALL)
+    time.sleep(20)
     return res
 
 
@@ -672,36 +677,41 @@ def cleanBuffer():
 
 
 if Scheduling_enable == 'Y':
+    menu()
+    print(Fore.MAGENTA+" Job schedulated, please wait..."+Style.RESET_ALL)
     while 1:
-        ora = datetime.datetime.now()
-        if Day_of_week == str(ora.weekday()):
-            if ora.strftime("%H:%M") == Hour_of_day:
-                print(Fore.RED + "\nStart schedulated " + job + " Job\n" + Style.RESET_ALL)
-                repDir = setupVariableReportScan(var_1, var_2)
-                z = open("Buffer" + repDir + ".txt", "a")
-                job_work(job, var_1, var_2, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
+        try:
+            ora = datetime.datetime.now()
+            if Day_of_week == str(ora.weekday()):
+                if ora.strftime("%H:%M") == Hour_of_day:
+                    print(Fore.RED + "\nStart schedulated " + job + " Job\n" + Style.RESET_ALL)
+                    repDir = setupVariableReportScan(var_1, var_2)
+                    z = open("Buffer" + repDir + ".txt", "a")
+                    job_work(job, var_1, var_2, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
                          SourcePort, enum_mode, pn_enum, Nikto, Wapiti, arachni, Enum4linux, bruteforce_SMB,
                          script_Nmap, Scheduling_enable, Day_of_week, Hour_of_day)
-                time.sleep(30)
-                menu()
-                fastScan()
-                menu()
-                deepScan()
-                menu()
-                evasionScan()
-                ip_list_up = listOfIp()
-                for elem in ip_list_up:
+                    time.sleep(30)
                     menu()
-                    enumeration(elem)
+                    fastScan()
+                    menu()
+                    deepScan()
+                    menu()
+                    evasionScan()
+                    ip_list_up = listOfIp()
+                    for elem in ip_list_up:
+                        menu()
+                        enumeration(elem)
+                    menu()
+                    finalOutMessage()
+                    cleanBuffer()
+                    time.sleep(61)
+            if ora.strftime("%S") == "00":
                 menu()
-                finalOutMessage()
-                cleanBuffer()
-                time.sleep(61)
-        if ora.strftime("%S") == "00":
-            menu()
-            print(Fore.LIGHTMAGENTA_EX + "Scheduling active: Next scan " + weekDay(
-                Day_of_week) + " at " + Hour_of_day + Style.RESET_ALL)
-            time.sleep(10)
+                print(Fore.LIGHTMAGENTA_EX + "Scheduling active: Next scan " + weekDay(
+                    Day_of_week) + " at " + Hour_of_day + Style.RESET_ALL)
+                time.sleep(10)
+        except KeyboardInterrupt:
+            sys.exit()
 else:
     print(Fore.RED+"\nStart "+job+ " Job\n"+Style.RESET_ALL)
     repDir = setupVariableReportScan(var_1, var_2)
