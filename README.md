@@ -26,7 +26,7 @@ sudo chmod 777 Requirement.sh
 ```
 
 ```
-chmod 777 NetShade_Network_Scanner
+sudo chmod 777 NetShade_Network_Scanner
 ```
 
 ```
