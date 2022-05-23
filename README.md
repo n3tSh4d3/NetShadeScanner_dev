@@ -25,7 +25,7 @@ sudo ./Root_Requirement.sh
 sudo chmod 777 Requirement.sh
 ```
 ```
-sudo chmod 777 Nmap-converter.py
+sudo chmod 777 nmap-converter.py
 ```
 ```
 sudo chmod 777 NetShade_Network_Scanner
