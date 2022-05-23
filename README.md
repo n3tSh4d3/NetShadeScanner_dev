@@ -66,3 +66,5 @@ myuser ALL=(ALL) NOPASSWD: ALL
 
 ```
 For other types of scans and / or enumerations it is not necessary to be an administrator.
+
+![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png) 
