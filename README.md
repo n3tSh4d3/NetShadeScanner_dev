@@ -1,4 +1,4 @@
-# Scanner
+# NETSHADE Automatic Scanner
 
 This is simple network scanner.
 
