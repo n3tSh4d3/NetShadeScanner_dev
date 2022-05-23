@@ -1,6 +1,6 @@
 # NETSHADE Automatic Scanner
 
-This script implements a network scanner which integrates Nmap, Enum4Linux, Ncrack, Nikto, Wapiti, Arachni.
+This script implements a network scanner which integrates Nmap, Enum4Linux, Ncrack, Nikto, Wapiti and Arachni.
 
 The script allows you to implement the various Firewall and IDS evasion methodologies implemented in Nmap.
 
