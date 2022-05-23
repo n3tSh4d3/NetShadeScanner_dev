@@ -19,7 +19,10 @@ try:
 except ModuleNotFoundError:
     print('run the requirements.txt file to have all the requirements satisfied')
 
-print(Fore.RED + '''
+
+def menu():
+    clear=subprocess.run("clear")
+    print(Fore.RED + '''
 
     _   __    ______  ______   _____    __  __    ___     ____     ______
    / | / /   / ____/ /_  __/  / ___/   / / / /   /   |   / __ \   / ____/
@@ -32,16 +35,23 @@ print(Fore.RED + '''
 ╠═╣│ │ │ │ ││││├─┤ │ ││    ╚═╗│  ├─┤││││││├┤ ├┬┘
 ╩ ╩└─┘ ┴ └─┘┴ ┴┴ ┴ ┴ ┴└─┘  ╚═╝└─┘┴ ┴┘└┘┘└┘└─┘┴└─
 	''' + Style.RESET_ALL)
-print(Fore.GREEN + '''
-Autor:
-Fidemsrl.it
+    print(Fore.GREEN + '''
+    Autor:
+    Fidemsrl.it
 	''' + Style.RESET_ALL)
+
+menu()
+
 
 print(Fore.RED + '''Setup job		
 				''')
 
 print(Fore.GREEN + "Enter name of job" + Style.RESET_ALL)
 job = input()
+
+menu()
+print(Fore.RED + '''Setup Target		
+                ''')
 
 print(Fore.GREEN + "Enter the target of the net scan: (es.192.168.1.0)" + Style.RESET_ALL)
 print(Fore.YELLOW + "NOTE:Alternatively, enter the single host to be analyzed (es.192.168.1.254)" + Style.RESET_ALL)
@@ -50,6 +60,10 @@ var_1 = input()
 print(Fore.GREEN + "Enter the subnet of the net scan: (24)" + Style.RESET_ALL)
 print(Fore.YELLOW + 'NOTE: Enter "32" for a single host' + Style.RESET_ALL)
 var_2 = input()
+
+menu()
+print(Fore.RED + '''Setup Type Scan		
+                ''')
 
 print(Fore.GREEN + "Quick scan (not port scanner) (Y/N)" + Style.RESET_ALL)
 fast = input()
@@ -64,21 +78,25 @@ if deep == 'Y':
     print(Fore.LIGHTGREEN_EX + "Do you want to test common passwords on discovered services? (Y/N)" + Style.RESET_ALL)
     bruteforce = input()
 
-print(Fore.GREEN + "IDS / FireWall evasion mode?(Y/N)" + Style.RESET_ALL)
+print(Fore.Blue + "IDS / FireWall evasion mode?(Y/N)" + Style.RESET_ALL)
 evasion = input()
 
 if evasion == 'Y':
-    print(Fore.BLUE + "Fragmentary packet mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTBLUE_EX+ "Fragmentary packet mode:(Y/N)" + Style.RESET_ALL)
     Frag = input()
-    print(Fore.BLUE + "Badsum check packet mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTBLUE_EX + "Badsum check packet mode:(Y/N)" + Style.RESET_ALL)
     print(Fore.YELLOW + "NOTE:This scanning takes a long time")
     Badsum = input()
-    print(Fore.BLUE + "Data random add packet mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTBLUE_EX + "Data random add packet mode:(Y/N)" + Style.RESET_ALL)
     Datalength = input()
-    print(Fore.BLUE + "Decoy 5 random host mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTBLUE_EX + "Decoy 5 random host mode:(Y/N)" + Style.RESET_ALL)
     Decoy = input()
-    print(Fore.BLUE + "Source port DNS mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTBLUE_EX + "Source port DNS mode:(Y/N)" + Style.RESET_ALL)
     SourcePort = input()
+
+menu()
+print(Fore.RED + '''Setup Enumeration Tool		
+                ''')
 
 print(
     Fore.LIGHTBLUE_EX + "[*] The next part of the tool will attempt to enumerate the services found in the NMAP scan" + Style.RESET_ALL)
