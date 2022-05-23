@@ -2,7 +2,9 @@
 
 This is simple network scanner.
 
-for setup execute FIRST:
+The reference Linux distribution for installation is Ubuntu 22.04.
+
+1) Initially proceed to install the administrator dependencies:
 
 ```
 sudo chmod 777 Root_Requirement.sh
@@ -10,7 +12,7 @@ sudo chmod 777 Root_Requirement.sh
 ```
 sudo ./Root_Requirement.sh
 ```
-SECOND:
+2) then proceed to install the non-administrator dependencies:
 
 ```
 sudo chmod 777 Requirement.sh
@@ -24,9 +26,7 @@ chmod 777 NetShade_Network_Scanner
 ./Requirement.sh
 ```
 
-for use the script:
-
-and 
+3) For use the script:
 
 ```
 ./NetShade_Network_Scanner
