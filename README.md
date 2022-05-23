@@ -5,18 +5,25 @@ This is simple network scanner.
 for setup execute FIRST:
 
 ```
-sudo chmod 777 Root_Requirement.sh" and "sudo ./Root_Requirement.sh"
+sudo chmod 777 Root_Requirement.sh
+```
+```
+sudo ./Root_Requirement.sh
 ```
 SECOND:
 
 ```
-sudo chmod 777 Requirement.sh" and "sudo ./Requirement.sh"
+sudo chmod 777 Requirement.sh
+```
+
+```
+./Requirement.sh
 ```
 
 for use the script:
 
 ```
-chmod 777 NetS*
+chmod 777 NetShade_Network_Scanner
 ```
 and 
 
