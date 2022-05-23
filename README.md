@@ -2,9 +2,11 @@
 
 This script implements a network scanner which integrates Nmap, Enum4Linux, Ncrack, Nikto, Wapiti and Arachni.
 
-The script allows you to implement the various Firewall and IDS evasion methodologies implemented in Nmap.
+The script allows you to use the various Firewall and IDS evasion methodologies implemented in Nmap.
 
 It also allows you to schedule the various Jobs in order to carry out the scan and enumeration sequence set in the initial setup phase.
+
+******************************************************************
 
 The reference Linux distribution for installation is Ubuntu 22.04.
 
