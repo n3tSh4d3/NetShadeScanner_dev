@@ -29,7 +29,7 @@ def menu():
 
   /\     _|_  _  ._ _   _. _|_ o  _   (_   _  _. ._  ._   _  ._ 
  /--\ |_| |_ (_) | | | (_|  |_ | (_   __) (_ (_| | | | | (/_ |  
-Autor: Fidemsrl.it	
+Autor: Adriano Condrò
     ''' + Style.RESET_ALL)
 
 menu()
