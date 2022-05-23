@@ -544,10 +544,12 @@ def enumeration(a):
         except:
             print("not remove Buffer")
 
-def job_work(a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d61,d62,d63,d64,d65,d6,e,e1,e2):
+def job_work(Job_ID,target,netmask,a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d6,e,e1,e2):
 
     menu()
-    print(Fore.RED+"---List process on Job---"+Style.RESET_ALL)
+    print(Fore.RED+"---List process on Job:"+Job_ID+"---"+Style.RESET_ALL)
+    print(Fore.LIGHTRED_EX+"Target: "+target+" Netmask "+netmask+Style.RESET_ALL)
+    print("**********************************************************************")
     if a=='Y':
         print(Fore.YELLOW+"\n[X] Fast Scan"+Style.RESET_ALL)
     else:
@@ -617,26 +619,6 @@ def job_work(a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d61,d62,d63,d64,d65
             print(Fore.LIGHTYELLOW_EX+"\n__[ ] ENUM4LINUX enable"+Style.BRIGHT)
         if d6 == 'Y':
             print(Fore.LIGHTYELLOW_EX+"\n__[X] NSE Nmap Script enable"+Style.RESET_ALL)
-            if d61 == 'Y':
-                print(Fore.LIGHTYELLOW_EX + "\n___[X] Broadcast script enable" + Style.RESET_ALL)
-            else:
-                print(Fore.LIGHTYELLOW_EX + "\n___[ ] Broadcast script enable" + Style.BRIGHT)
-            if d62 == 'Y':
-                print(Fore.LIGHTYELLOW_EX + "\n___[X] Discovery script enable" + Style.RESET_ALL)
-            else:
-                print(Fore.LIGHTYELLOW_EX + "\n___[ ] Discovery script enable" + Style.RESET_ALL)
-            if d63 == 'Y':
-                print(Fore.LIGHTYELLOW_EX + "\n___[X] Malware script enable" + Style.RESET_ALL)
-            else:
-                print(Fore.LIGHTYELLOW_EX + "\n___[ ] Malware script enable" + Style.BRIGHT)
-            if d64 == 'Y':
-                print(Fore.LIGHTYELLOW_EX + "\n___[X] Exploit script enable" + Style.RESET_ALL)
-            else:
-                print(Fore.LIGHTYELLOW_EX + "\n___[ ] Exploit script enable" + Style.RESET_ALL)
-            if d65 == 'Y':
-                print(Fore.LIGHTYELLOW_EX + "\n___[X] Vulnerability script enable" + Style.RESET_ALL)
-            else:
-                print(Fore.LIGHTYELLOW_EX + "\n___[ ] Vulnerability script enable" + Style.RESET_ALL)
         else:
             print(Fore.LIGHTYELLOW_EX+"\n__[ ] NSE Nmap Script enable"+Style.RESET_ALL)
     else:
@@ -714,7 +696,7 @@ else:
     print(Fore.RED+"\nStart "+job+ " Job\n"+Style.RESET_ALL)
     repDir = setupVariableReportScan(var_1, var_2)
     z = open("Buffer" + repDir + ".txt", "a")
-    #job_work()
+    job_work(job,var_1,var_2,fast,deep,pn,bruteforce,evasion,Frag,Badsum,Datalength,Decoy,SourcePort,enum_mode,pn_enum,Nikto,Wapiti,arachni,Enum4linux,bruteforce_SMB,script_Nmap,Scheduling_enable,Day_of_week,Hour_of_day)
     fastScan()
     deepScan()
     evasionScan()
