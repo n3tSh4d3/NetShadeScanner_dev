@@ -17,14 +17,15 @@ sudo chmod 777 Requirement.sh
 ```
 
 ```
+chmod 777 NetShade_Network_Scanner
+```
+
+```
 ./Requirement.sh
 ```
 
 for use the script:
 
-```
-chmod 777 NetShade_Network_Scanner
-```
 and 
 
 ```
@@ -37,7 +38,7 @@ e.g.    sudo ./NetShade_Network_Scanner  (NOT USE FOR NOT EVASION OPERATION)
 
 NOTE:USING ROOT CAUSES ARACHNI NOT WORKING!!!
 
-IMPORTANT! for scheduling firewall / IDS evasion operations it is necessary to enable the user to be root without having to enter the administrator password.
+IMPORTANT! for scheduling firewall / IDS evasion operations, it is necessary to enable the user to be root without having to enter the administrator password.
 
 Add you user in the "visudo" file linux of S.O. 
 
