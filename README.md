@@ -40,7 +40,7 @@ NOTE:USING ROOT CAUSES ARACHNI NOT WORKING!!!
 
 IMPORTANT! for scheduling firewall / IDS evasion operations, it is necessary to enable the user to be root without having to enter the administrator password.
 
-Add you user in the "visudo" file linux of S.O. 
+Add you user in the "visudo" file of O.S. 
 
 ```
 myuser@host: sudo visudo
