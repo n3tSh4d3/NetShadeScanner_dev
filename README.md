@@ -36,6 +36,7 @@ sudo chmod 777 NetShade_Network_Scanner
 ```
 ./Requirement.sh
 ```
+NOTE: Enter the root password if prompted (to delete shared folders)
 
 ******************************************************************
 3) For use the script:
