@@ -182,6 +182,8 @@ def fastScan():
                                  stdout=z)
             cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Fast_Scan_Nmap_XLS" + var_1 + ".xls",
                                   repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
+            cmd = subprocess.run(["xsltproc", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml", "-o", repDir + "/Fast_Scan_Nmap_" + var_1 + ".html"
+                                  ])
         except KeyboardInterrupt:
             sys.exit()
 
@@ -198,10 +200,13 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-Pn", "-p-", "-A", "-T4", var_nmap, "-oX", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"],
+                    ["nmap", "-Pn", "-p-", "-A", "-T4", var_nmap, "-oX", repDir + "/Deep_Scan_Nmap_Pn" + var_1 + ".xml"],
                     stdout=z)
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
-                                      repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_Pn_XLS" + var_1 + ".xls",
+                                      repDir + "/Deep_Scan_Nmap_Pn" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Deep_Scan_Nmap_Pn" + var_1 + ".xml", "-o",
+                                      repDir + "/Fast_Scan_Nmap_Pn" + var_1 + ".html"
+                                      ])
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -215,6 +220,9 @@ def deepScan():
                     stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
                                       repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml", "-o",
+                                      repDir + "/Fast_Scan_Nmap_" + var_1 + ".html"
+                                      ])
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -245,11 +253,14 @@ def evasionScan():
 ---Fragmentary mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
-                    ["sudo", "nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"],
+                    ["sudo", "nmap", "-f", var_nmap, "-oX", repDir + "/Nmap_evasion_mode_frag_" + var_1 + ".xml"],
                     stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_frag_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_frag" + var_1 + ".xml"])
+                     repDir + "/Nmap_evasion_mode_frag_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Nmap_evasion_mode_frag_" + var_1 + ".xml", "-o",
+                                      repDir + "/Nmap_evasion_mode_frag_" + var_1 + ".html"
+                                      ])
 
             if Badsum == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
@@ -257,20 +268,26 @@ def evasionScan():
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
                     ["sudo", "nmap", "--badsum", var_nmap, "-oX",
-                     repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"], stdout=z)
+                     repDir + "/Nmap_evasion_mode_badsum_" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_badsum_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_badsum" + var_1 + ".xml"])
+                     repDir + "/Nmap_evasion_mode_badsum_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Nmap_evasion_mode_badsum_" + var_1 + ".xml", "-o",
+                                      repDir + "/Nmap_evasion_mode_badsum_" + var_1 + ".html"
+                                      ])
 
             if Datalength == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
 ---Data length mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(["sudo", "nmap", "--data-length", "25", var_nmap, "-oX",
-                                      repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"], stdout=z)
+                                      repDir + "/Nmap_evasion_mode_data_length_" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_data_length_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_data_length" + var_1 + ".xml"])
+                     repDir + "/Nmap_evasion_mode_data_length_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Nmap_evasion_mode_data_length_" + var_1 + ".xml", "-o",
+                                      repDir + "/Nmap_evasion_mode_data_length_" + var_1 + ".html"
+                                      ])
 
             if Decoy == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
@@ -278,20 +295,26 @@ def evasionScan():
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(
                     ["sudo", "nmap", "-D", "RND:5", var_nmap, "-oX",
-                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"], stdout=z)
+                     repDir + "/Nmap_evasion_mode_decoy_random_" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_decoy_random_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_decoy_random" + var_1 + ".xml"])
+                     repDir + "/Nmap_evasion_mode_decoy_random_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Nmap_evasion_mode_decoy_random_" + var_1 + ".xml", "-o",
+                                      repDir + "/Nmap_evasion_mode_decoy_random_" + var_1 + ".html"
+                                      ])
 
             if SourcePort == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
 ---Source port DNS mode--- Scan started, please wait!
 			''' + Style.RESET_ALL)
                 cmd = subprocess.run(["sudo", "nmap", "--source-port", "53", var_nmap, "-oX",
-                                      repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"], stdout=z)
+                                      repDir + "/Nmap_evasion_mode_source_port_53_" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
                     ["./nmap-converter.py", "-o", repDir + "/Nmap_evasion_mode_source_port_53_XLS" + var_1 + ".xls",
-                     repDir + "/Nmap_evasion_mode_source_port_53" + var_1 + ".xml"])
+                     repDir + "/Nmap_evasion_mode_source_port_53_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", repDir + "/Nmap_evasion_mode_source_port_53_" + var_1 + ".xml", "-o",
+                                      repDir + "/Nmap_evasion_mode_source_port_53_" + var_1 + ".html"
+                                      ])
         except KeyboardInterrupt:
             sys.exit()
 
@@ -346,6 +369,9 @@ def enumeration(a):
                 ["nmap", "-p", listToStr, "-A", "-T4", ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
             cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".xls",
                                   repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+            cmd = subprocess.run(["xsltproc", repDir + "/Nmap_portscanner_" + var_1 + ".xml", "-o",
+                                  repDir + "/Nmap_portscanner_" + var_1 + ".html"
+                                  ])
 
         except KeyboardInterrupt:
             sys.exit()
@@ -467,6 +493,9 @@ def enumeration(a):
                         cmd = subprocess.run(
                             ["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
                         print("\n Report enum4linux saved!")
+                        cmd = subprocess.run(["xsltproc", repDir + "/enum4linux_" + ipScan+ ".xml", "-o",
+                                              repDir + "/enum4linux_" + ipScan + ".html"
+                                              ])
                     except KeyboardInterrupt:
                         sys.exit()
 
