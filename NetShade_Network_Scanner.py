@@ -200,13 +200,11 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-Pn", "-p-", "-A", "-T4", var_nmap, "-oX", repDir + "/Deep_Scan_Nmap_Pn" + var_1 + ".xml"],
-                    stdout=z)
+                    ["nmap", "-Pn", "-p-", "-A", "-T4", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + var_1,"--stylesheet","nmap-bootstrap.xsl"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_Pn_XLS" + var_1 + ".xls",
-                                      repDir + "/Deep_Scan_Nmap_Pn" + var_1 + ".xml"])
-                cmd = subprocess.run(["xsltproc", repDir + "/Deep_Scan_Nmap_Pn" + var_1 + ".xml", "-o",
-                                      repDir + "/Fast_Scan_Nmap_Pn" + var_1 + ".html"
-                                      ])
+                                      repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
+                cmd = subprocess.run(["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
+
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -216,13 +214,13 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-p-", "-A", "-T4", var_nmap, "-oX", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"],
-                    stdout=z)
+                    ["nmap","-p-", "-A", "-T4", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + var_1,
+                     "--stylesheet", "nmap-bootstrap.xsl"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
                                       repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
-                cmd = subprocess.run(["xsltproc", repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml", "-o",
-                                      repDir + "/Fast_Scan_Nmap_" + var_1 + ".html"
-                                      ])
+                cmd = subprocess.run(
+                    ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", "nmap-bootstrap.xsl",
+                     repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -493,9 +491,7 @@ def enumeration(a):
                         cmd = subprocess.run(
                             ["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
                         print("\n Report enum4linux saved!")
-                        cmd = subprocess.run(["xsltproc", repDir + "/enum4linux_" + ipScan+ ".xml", "-o",
-                                              repDir + "/enum4linux_" + ipScan + ".html"
-                                              ])
+
                     except KeyboardInterrupt:
                         sys.exit()
 
@@ -532,7 +528,8 @@ def enumeration(a):
 
                             cmd = subprocess.run(['ncrack', "-vvv", ipScan, "-p", "smb", "-g", "to=30", "-f", "-U",
                                               "User" + repDir + "user_SMB.txt", "-P", "dictionary/pass_small.txt",
-                                              "-oN", repDir + "/Ncrack_SMB_pass_discovered_" + ipScan + ".txt"])
+                                              "-oA", repDir + "/Ncrack_SMB_pass_discovered_" + ipScan ])
+
                             try:
                                 os.remove("User" + repDir + "user_SMB.txt")
                             except:
