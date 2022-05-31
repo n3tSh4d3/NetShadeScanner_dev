@@ -706,6 +706,7 @@ def create_index_html():
 
     filehtml=[]
     filepdf=[]
+    filexls=[]
 
     for x in os.listdir(repDir):
         if x.endswith(".html"):
@@ -724,13 +725,22 @@ def create_index_html():
     for y in filepdf:
         link_pdf_page+="<p><a href="+y+">"+y+"</a></p>"
 
+
+    for x in os.listdir(repDir):
+        if x.endswith(".xls"):
+            filexls.append(x)
+
+    link_xls_page=''
+    for y in filexls:
+        link_xls_page+="<p><a href="+y+">"+y+"</a></p>"
+
     f = open('./' + repDir + '/index.html', 'w')
     if var_2 == '32':
         title="<h2>Single Host Scan</h2>"
     else:
         title="<h2>Net Scan</h2>"
 
-    message = "<html><head></head><body><h1>List Scan</h1>"+title+link_page+"<h2>Download PDF</h2>"+link_pdf_page+"</body></html>"
+    message = "<html><head></head><body><h1>List Scan</h1>"+title+link_page+"<h2>Download PDF</h2>"+link_pdf_page+"<h2>Download Excel file</h2>"+link_xls_page+"</body></html>"
 
     f.write(message)
     f.close()
@@ -754,7 +764,8 @@ def server_http_dir():
                 super().__init__(*args, directory=repDir, **kwargs)
 
         with socketserver.TCPServer(("", PORT), Handler) as httpd:
-            print("Start server http://localhost:5122")
+            print(Fore.LIGHTYELLOW_EX+"The job report is available via the WEB server (CTRL-C for exit).\n")
+            print(Fore.YELLOW+"Start server http://localhost:5122"+Style.RESET_ALL)
             httpd.serve_forever()
     except KeyboardInterrupt:
         sys.exit()
