@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo "Install Nmap, Nikto and SmbMap\n";
-apt install -y pip git nmap nikto smbmap wapiti ldap-utils polenum smbclient wget ncrack arp-scan xsltproc ;
-pip install python-libnmap XlsxWriter impacket ldap3 PyYAML>=5.1;
+apt install -y pip git nmap nikto smbmap wapiti ldap-utils polenum smbclient wget ncrack arp-scan xsltproc wkhtmltopdf;
+pip install python-libnmap pdfkit XlsxWriter flask impacket ldap3 PyYAML>=5.1;
 pip3 install schedule;
 
 

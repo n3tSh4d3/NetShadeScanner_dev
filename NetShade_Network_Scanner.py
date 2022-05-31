@@ -16,6 +16,10 @@ try:
     import datetime
     import schedule
     import time
+    import pdfkit
+    import http.server
+    import socketserver
+
 except ModuleNotFoundError:
     print('run the requirements.txt file to have all the requirements satisfied')
 
@@ -180,10 +184,10 @@ def fastScan():
             # Fast Scan
             cmd = subprocess.run(["nmap", "-sn", var_nmap, "-oX", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"],
                                  stdout=z)
-            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Fast_Scan_Nmap_XLS" + var_1 + ".xls",
+            cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Fast_Scan_Nmap_XLS_" + var_1 + ".xls",
                                   repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
-            cmd = subprocess.run(["xsltproc", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml", "-o", repDir + "/Fast_Scan_Nmap_" + var_1 + ".html"
-                                  ])
+            cmd = subprocess.run(["xsltproc", "-o", repDir + "/Fast_Scan_Nmap_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
+            pdfkit.from_file(repDir + "/Fast_Scan_Nmap_" + var_1 + ".html", repDir + "/Fast_Scan_Nmap_" + var_1 + ".pdf")
         except KeyboardInterrupt:
             sys.exit()
 
@@ -205,6 +209,7 @@ def deepScan():
                                       repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
                 cmd = subprocess.run(["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
 
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", repDir + "/Deep_Scan_Nmap_" + var_1 + ".pdf")
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -221,6 +226,11 @@ def deepScan():
                 cmd = subprocess.run(
                     ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", "nmap-bootstrap.xsl",
                      repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
+
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", repDir + "/Deep_Scan_Nmap_" + var_1 + ".pdf")
+
+
+
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -689,6 +699,42 @@ def listOfIp():
     time.sleep(20)
     return res
 
+def create_index_html():
+    # write-html.py
+
+
+
+    filehtml=[]
+    filepdf=[]
+
+    for x in os.listdir(repDir):
+        if x.endswith(".html"):
+            filehtml.append(x)
+
+    link_page=''
+    for y in filehtml:
+        link_page+="<p><a href="+y+">"+y+"</a></p>"
+
+
+    for x in os.listdir(repDir):
+        if x.endswith(".pdf"):
+            filepdf.append(x)
+
+    link_pdf_page=''
+    for y in filepdf:
+        link_pdf_page+="<p><a href="+y+">"+y+"</a></p>"
+
+    f = open('./' + repDir + '/index.html', 'w')
+    if var_2 == '32':
+        title="<h2>Single Host Scan</h2>"
+    else:
+        title="<h2>Net Scan</h2>"
+
+    message = "<html><head></head><body><h1>List Scan</h1>"+title+link_page+"<h2>Download PDF</h2>"+link_pdf_page+"</body></html>"
+
+    f.write(message)
+    f.close()
+
 
 def cleanBuffer():
     ##### close buffer file #####
@@ -697,6 +743,21 @@ def cleanBuffer():
         os.remove("Buffer" + repDir + ".txt")
     except:
         print("not remove Buffer")
+
+def server_http_dir():
+
+    PORT = 5122
+
+    try:
+        class Handler(http.server.SimpleHTTPRequestHandler):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, directory=repDir, **kwargs)
+
+        with socketserver.TCPServer(("", PORT), Handler) as httpd:
+            print("Start server http://localhost:5122")
+            httpd.serve_forever()
+    except KeyboardInterrupt:
+        sys.exit()
 
 
 ######## main function ########
@@ -759,6 +820,10 @@ else:
         menu()
         finalOutMessage()
         cleanBuffer()
+        create_index_html()
+        server_http_dir()
+
+
     else:
         print("Thank you! Goodbye!")
         sys.exit()

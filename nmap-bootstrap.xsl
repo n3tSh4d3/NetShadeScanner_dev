@@ -309,12 +309,7 @@ Andreas Hontzia (@honze_net)
           </script>
         </div>
         <footer class="footer">
-          <div class="container">
-            <p class="text-muted">
-              This report was generated with <a href="https://github.com/honze-net/nmap-bootstrap-xsl">Nmap Bootstrap XSL</a>.<br/>
-              Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons BY-SA</a>.<br/>
-            </p>
-          </div>
+
         </footer>
       </body>
     </html>
