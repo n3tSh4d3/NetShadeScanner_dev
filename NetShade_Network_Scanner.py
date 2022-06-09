@@ -209,7 +209,7 @@ def deepScan():
                                       repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
                 cmd = subprocess.run(["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
 
-                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", repDir + "/Deep_Scan_Nmap_" + var_1 + ".pdf")
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".pdf")
 
             except KeyboardInterrupt:
                 sys.exit()
