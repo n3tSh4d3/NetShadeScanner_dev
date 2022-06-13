@@ -348,14 +348,14 @@ def enumeration(a):
         if (pn_enum == 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-T4", ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-T2", ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
         # else of the scanner if
         elif (pn_enum != 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-p-", "-T4", ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-p-", "-T2", ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
 
