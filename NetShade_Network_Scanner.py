@@ -204,7 +204,7 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-Pn", "-p-", "-A", "-T2", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + var_1,"--stylesheet","nmap-bootstrap.xsl"], stdout=z)
+                    ["nmap", "-Pn", "-p-", "-A", "-T3", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + var_1,"--stylesheet","nmap-bootstrap.xsl"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_Pn_XLS" + var_1 + ".xls",
                                       repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
                 cmd = subprocess.run(["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
@@ -219,7 +219,7 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap","-p-", "-A", "-T2", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + var_1,
+                    ["nmap","-p-", "-A", "-T3", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + var_1,
                      "--stylesheet", "nmap-bootstrap.xsl"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
                                       repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
@@ -348,14 +348,14 @@ def enumeration(a):
         if (pn_enum == 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-T2", ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-T3", ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
         # else of the scanner if
         elif (pn_enum != 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-p-", "-T2", ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-p-", "-T3", ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
 
@@ -374,7 +374,7 @@ def enumeration(a):
 
         try:
             cmd = subprocess.run(
-                ["nmap", "-p", listToStr, "-A", "-T2", ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+                ["nmap", "-p", listToStr, "-A", "-T3", ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
             cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".xls",
                                   repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
             cmd = subprocess.run(["xsltproc", repDir + "/Nmap_portscanner_" + var_1 + ".xml", "-o",
