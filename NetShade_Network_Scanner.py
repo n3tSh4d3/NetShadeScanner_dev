@@ -137,7 +137,9 @@ if Scheduling_enable == 'Y':
     print(Fore.LIGHTMAGENTA_EX + ">> At that time?" + Style.RESET_ALL)
     print(Fore.YELLOW + "NOTE: WRITE es.  18:00 22:00 13:22 00:22 ")
     Hour_of_day = input()
-
+else:
+    print(Fore.RED + "Do you want to start the web server to view the scan results on the browser? (Y/N)" + Style.RESET_ALL)
+    web_server_yes = input()
 ########create variable and dir of report #########
 var_nmap = var_1 + "/" + var_2
 repDir = ''
@@ -864,7 +866,8 @@ else:
         finalOutMessage()
         cleanBuffer()
         create_index_html()
-        server_http_dir()
+        if web_server_yes=='Y':
+            server_http_dir()
 
 
     else:
