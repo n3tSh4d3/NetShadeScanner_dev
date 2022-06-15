@@ -38,7 +38,7 @@ Autor: Adriano Condrò
 
 menu()
 
-job=var_1=var_2=arq=fast=deep=pn=bruteforce=evasion=Frag=Badsum=Datalength=Decoy=SourcePort=enum_mode=pn_enum=Nikto=Wapiti=arachni=Enum4linux=bruteforce_SMB=script_Nmap=Scheduling_enable=Day_of_week=Hour_of_day='n'
+job=var_1=var_2=arp_scan=fast=deep=pn=bruteforce=evasion=Frag=Badsum=Datalength=Decoy=SourcePort=enum_mode=pn_enum=Nikto=Wapiti=arachni=Enum4linux=bruteforce_SMB=script_Nmap=Scheduling_enable=Day_of_week=Hour_of_day='n'
 print(Fore.RED + "Setup job")
 
 print(Fore.CYAN + "Enter name of job" + Style.RESET_ALL)
@@ -58,7 +58,7 @@ var_2 = input()
 menu()
 print(Fore.RED + "Setup Type Scan")
 
-print(Fore.GREEN + "Setup speed scan) (insert value '1' for slow scan ---> '5' for maximun speed)" + Style.RESET_ALL)
+print(Fore.LIGHTYELLOW_EX + "Setup speed scan (insert value '1' for slow scan ---> '5' for fast scan)" + Style.RESET_ALL)
 speed="3"
 speed = input()
 speed = 'T'+str(speed)
@@ -606,14 +606,14 @@ def enumeration(a):
         except:
             print("not remove Buffer")
 
-def job_work(Job_ID,target,netmask,arq,a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d6,e,e1,e2):
+def job_work(Job_ID,target,netmask,arp,a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d6,e,e1,e2):
 
     menu()
     print(Fore.RED+"---List process on Job: "+Fore.LIGHTBLUE_EX+Job_ID+Fore.RED+" ---"+Style.RESET_ALL)
     print(Fore.LIGHTRED_EX+"Target: "+Fore.LIGHTBLUE_EX+target+Fore.LIGHTRED_EX+" Netmask "+Fore.LIGHTBLUE_EX+netmask+Style.RESET_ALL)
     print(Fore.RED+"***********************************"+Style.RESET_ALL)
-    if arq == 'Y':
-        print(Fore.YELLOW + "[X] ARQ Scan" + Style.RESET_ALL)
+    if arp == 'Y':
+        print(Fore.YELLOW + "[X] ARP Scan" + Style.RESET_ALL)
     else:
         print(Fore.YELLOW + "[ ] ARQ Scan" + Style.RESET_ALL)
     if a=='Y':
@@ -811,8 +811,8 @@ if Scheduling_enable == 'Y':
                     print(Fore.RED + "\nStart schedulated " + job + " Job\n" + Style.RESET_ALL)
                     repDir = setupVariableReportScan(var_1, var_2)
                     z = open("Buffer" + repDir + ".txt", "a")
-                    arph = open("ARP_SCAN_" + repDir + ".txt", "a")
-                    job_work(job, var_1, var_2, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
+                    arph = open(repDir+"/ARP_SCAN_" + repDir + ".txt", "a")
+                    job_work(job, var_1, var_2,arp_scan, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
                          SourcePort, enum_mode, pn_enum, Nikto, Wapiti, arachni, Enum4linux, bruteforce_SMB,
                          script_Nmap, Scheduling_enable, Day_of_week, Hour_of_day)
                     time.sleep(30)
@@ -844,7 +844,7 @@ else:
     repDir = setupVariableReportScan(var_1, var_2)
     z = open("Buffer" + repDir + ".txt", "a")
     arph = open(repDir+"/ARP_SCAN_" + repDir + ".txt", "a")
-    job_work(job,var_1,var_2,arq,fast,deep,pn,bruteforce,evasion,Frag,Badsum,Datalength,Decoy,SourcePort,enum_mode,pn_enum,Nikto,Wapiti,arachni,Enum4linux,bruteforce_SMB,script_Nmap,Scheduling_enable,Day_of_week,Hour_of_day)
+    job_work(job,var_1,var_2,arp_scan,fast,deep,pn,bruteforce,evasion,Frag,Badsum,Datalength,Decoy,SourcePort,enum_mode,pn_enum,Nikto,Wapiti,arachni,Enum4linux,bruteforce_SMB,script_Nmap,Scheduling_enable,Day_of_week,Hour_of_day)
     print(Fore.LIGHTBLUE_EX+"Execute the Job? (Y/N)")
     execute_job=input()
     if execute_job=='Y':
