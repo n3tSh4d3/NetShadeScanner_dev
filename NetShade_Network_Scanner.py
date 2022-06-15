@@ -38,7 +38,7 @@ Autor: Adriano Condrò
 
 menu()
 
-job=var_1=var_2=fast=deep=pn=bruteforce=evasion=Frag=Badsum=Datalength=Decoy=SourcePort=enum_mode=pn_enum=Nikto=Wapiti=arachni=Enum4linux=bruteforce_SMB=script_Nmap=Scheduling_enable=Day_of_week=Hour_of_day='n'
+job=var_1=var_2=arq=fast=deep=pn=bruteforce=evasion=Frag=Badsum=Datalength=Decoy=SourcePort=enum_mode=pn_enum=Nikto=Wapiti=arachni=Enum4linux=bruteforce_SMB=script_Nmap=Scheduling_enable=Day_of_week=Hour_of_day='n'
 print(Fore.RED + "Setup job")
 
 print(Fore.CYAN + "Enter name of job" + Style.RESET_ALL)
@@ -62,6 +62,11 @@ print(Fore.GREEN + "Setup speed scan) (insert value '1' for slow scan ---> '5' f
 speed="3"
 speed = input()
 speed = 'T'+str(speed)
+
+print(Fore.GREEN + "ARP scan  (Y/N)" + Style.RESET_ALL)
+arp_scan="n"
+arp_scan = input()
+
 print(Fore.GREEN + "Quick scan (not port scanner) (Y/N)" + Style.RESET_ALL)
 fast="n"
 fast = input()
@@ -137,6 +142,7 @@ if Scheduling_enable == 'Y':
 var_nmap = var_1 + "/" + var_2
 repDir = ''
 z = ''
+arph = ''
 
 
 ########create variable and dir of report #########
@@ -176,6 +182,19 @@ def weekDay(a):
 
 ####### enter the Network-scanner ########
 
+def arpScan():
+    if (arp_scan == 'Y'):
+        print(Fore.RED + '''
+---ARP Scan Mode--- Scan started, please wait!
+	''' + Style.RESET_ALL)
+        try:
+            # Fast Scan
+            cmd = subprocess.run(["sudo", "arp-scan","-R","-D","-x", var_nmap],stdout=arph)
+
+        except KeyboardInterrupt:
+            sys.exit()
+
+
 
 ####### Fast Scan #######
 
@@ -186,7 +205,7 @@ def fastScan():
 	''' + Style.RESET_ALL)
         try:
             # Fast Scan
-            cmd = subprocess.run(["nmap", "-sn", var_nmap, "-oX", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"],
+            cmd = subprocess.run(["nmap", "-sn", var_nmap,"--stats-every","1s", "-oX", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"],
                                  stdout=z)
             cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Fast_Scan_Nmap_XLS_" + var_1 + ".xls",
                                   repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
@@ -587,12 +606,16 @@ def enumeration(a):
         except:
             print("not remove Buffer")
 
-def job_work(Job_ID,target,netmask,a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d6,e,e1,e2):
+def job_work(Job_ID,target,netmask,arq,a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d6,e,e1,e2):
 
     menu()
     print(Fore.RED+"---List process on Job: "+Fore.LIGHTBLUE_EX+Job_ID+Fore.RED+" ---"+Style.RESET_ALL)
     print(Fore.LIGHTRED_EX+"Target: "+Fore.LIGHTBLUE_EX+target+Fore.LIGHTRED_EX+" Netmask "+Fore.LIGHTBLUE_EX+netmask+Style.RESET_ALL)
     print(Fore.RED+"***********************************"+Style.RESET_ALL)
+    if arq == 'Y':
+        print(Fore.YELLOW + "[X] ARQ Scan" + Style.RESET_ALL)
+    else:
+        print(Fore.YELLOW + "[ ] ARQ Scan" + Style.RESET_ALL)
     if a=='Y':
         print(Fore.YELLOW+"[X] Fast Scan"+Style.RESET_ALL)
     else:
@@ -788,10 +811,13 @@ if Scheduling_enable == 'Y':
                     print(Fore.RED + "\nStart schedulated " + job + " Job\n" + Style.RESET_ALL)
                     repDir = setupVariableReportScan(var_1, var_2)
                     z = open("Buffer" + repDir + ".txt", "a")
+                    arph = open("ARP_SCAN_" + repDir + ".txt", "a")
                     job_work(job, var_1, var_2, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
                          SourcePort, enum_mode, pn_enum, Nikto, Wapiti, arachni, Enum4linux, bruteforce_SMB,
                          script_Nmap, Scheduling_enable, Day_of_week, Hour_of_day)
                     time.sleep(30)
+                    menu()
+                    arpScan()
                     menu()
                     fastScan()
                     menu()
@@ -817,10 +843,13 @@ else:
     print(Fore.RED+"\nStart "+job+ " Job\n"+Style.RESET_ALL)
     repDir = setupVariableReportScan(var_1, var_2)
     z = open("Buffer" + repDir + ".txt", "a")
-    job_work(job,var_1,var_2,fast,deep,pn,bruteforce,evasion,Frag,Badsum,Datalength,Decoy,SourcePort,enum_mode,pn_enum,Nikto,Wapiti,arachni,Enum4linux,bruteforce_SMB,script_Nmap,Scheduling_enable,Day_of_week,Hour_of_day)
+    arph = open(repDir+"/ARP_SCAN_" + repDir + ".txt", "a")
+    job_work(job,var_1,var_2,arq,fast,deep,pn,bruteforce,evasion,Frag,Badsum,Datalength,Decoy,SourcePort,enum_mode,pn_enum,Nikto,Wapiti,arachni,Enum4linux,bruteforce_SMB,script_Nmap,Scheduling_enable,Day_of_week,Hour_of_day)
     print(Fore.LIGHTBLUE_EX+"Execute the Job? (Y/N)")
     execute_job=input()
     if execute_job=='Y':
+        menu()
+        arpScan()
         menu()
         fastScan()
         menu()
