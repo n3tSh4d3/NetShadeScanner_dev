@@ -140,7 +140,7 @@ Andreas Hontzia (@honze_net)
               $('#table-overview').DataTable();
             });
             $('#table-overview').DataTable( {
-              "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+              "lengthMenu": [ [100, -1], [100, "All"] ]
             });
           </script>
           <h2 id="onlinehosts" class="target">Online Hosts</h2>
@@ -303,7 +303,7 @@ Andreas Hontzia (@honze_net)
               });
             });
             $('#table-services').DataTable( {
-              "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+              "lengthMenu": [ [100, -1], [100, "All"] ]
             });
             
           </script>

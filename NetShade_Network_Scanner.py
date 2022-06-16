@@ -25,7 +25,7 @@ except ModuleNotFoundError:
 
 
 def menu():
-    clear=subprocess.run("clear")
+    cmd = subprocess.run("clear")
     print(Fore.LIGHTBLUE_EX + '''
  __   _ _______ _______ _______ _     _ _______ ______  _______
  | \  | |______    |    |______ |_____| |_____| |     \ |______
@@ -36,9 +36,10 @@ def menu():
 Autor: Adriano Condrò
     ''' + Style.RESET_ALL)
 
+
 menu()
 
-job=var_1=var_2=arp_scan=fast=deep=pn=bruteforce=evasion=Frag=Badsum=Datalength=Decoy=SourcePort=enum_mode=pn_enum=Nikto=Wapiti=arachni=Enum4linux=bruteforce_SMB=script_Nmap=Scheduling_enable=Day_of_week=Hour_of_day='n'
+job = var_1 = var_2 = arp_scan = fast = deep = pn = bruteforce = evasion = Frag = Badsum = Datalength = Decoy = SourcePort = enum_mode = pn_enum = Nikto = Wapiti = arachni = Enum4linux = bruteforce_SMB = script_Nmap = Scheduling_enable = Day_of_week = Hour_of_day = 'n'
 print(Fore.RED + "Setup job")
 
 print(Fore.CYAN + "Enter name of job" + Style.RESET_ALL)
@@ -58,35 +59,37 @@ var_2 = input()
 menu()
 print(Fore.RED + "Setup Type Scan")
 
-print(Fore.LIGHTYELLOW_EX + "Setup speed scan (insert value '1' for slow scan ---> '5' for fast scan)" + Style.RESET_ALL)
-speed="3"
+print(
+    Fore.LIGHTYELLOW_EX + "Setup speed scan (insert value '1' for slow scan ---> '5' for fast scan)" + Style.RESET_ALL)
+speed = "3"
 speed = input()
-speed = 'T'+str(speed)
+speed = 'T' + str(speed)
 
 print(Fore.GREEN + "ARP scan  (Y/N)" + Style.RESET_ALL)
-arp_scan="n"
+arp_scan = "n"
 arp_scan = input()
 
 print(Fore.GREEN + "Quick scan (not port scanner) (Y/N)" + Style.RESET_ALL)
-fast="n"
+fast = "n"
 fast = input()
 
 print(Fore.GREEN + "Deep network scan and bruteforce common password on service discovered? (Y/N)" + Style.RESET_ALL)
-deep="n"
+deep = "n"
 deep = input()
 
 if deep == 'Y':
     print(Fore.LIGHTGREEN_EX + ">> Deep Network Scan mode; Do you want use -Pn option ? (Y/N)" + Style.RESET_ALL)
     pn = input()
 
-    print(Fore.LIGHTGREEN_EX + ">> Do you want to test common passwords on discovered services? (Y/N)" + Style.RESET_ALL)
+    print(
+        Fore.LIGHTGREEN_EX + ">> Do you want to test common passwords on discovered services? (Y/N)" + Style.RESET_ALL)
     bruteforce = input()
 
 print(Fore.BLUE + "IDS / FireWall evasion mode?(Y/N)" + Style.RESET_ALL)
 evasion = input()
 
 if evasion == 'Y':
-    print(Fore.LIGHTBLUE_EX+ ">> Fragmentary packet mode:(Y/N)" + Style.RESET_ALL)
+    print(Fore.LIGHTBLUE_EX + ">> Fragmentary packet mode:(Y/N)" + Style.RESET_ALL)
     Frag = input()
     print(Fore.LIGHTBLUE_EX + ">> Badsum check packet mode:(Y/N)" + Style.RESET_ALL)
     print(Fore.YELLOW + "NOTE:This scanning takes a long time")
@@ -101,7 +104,8 @@ if evasion == 'Y':
 menu()
 print(Fore.RED + "Setup Enumeration Tool")
 
-print(Fore.BLUE + "The next part of the tool will attempt to enumerate the services found in the NMAP scan." + Style.RESET_ALL)
+print(
+    Fore.BLUE + "The next part of the tool will attempt to enumerate the services found in the NMAP scan." + Style.RESET_ALL)
 print(Fore.LIGHTBLUE_EX + "Enumeration mode? (Y/N)" + Style.RESET_ALL)
 enum_mode = input()
 if enum_mode == 'Y':
@@ -116,7 +120,8 @@ if enum_mode == 'Y':
     print(Fore.LIGHTBLUE_EX + ">> Do you want use ENUM4LINUX? (Y/N)" + Style.RESET_ALL)
     Enum4linux = input()
     if Enum4linux == 'Y':
-        print(Fore.LIGHTBLUE_EX + "-->> Do you want to test common passwords on discovered SAMBA services? (Y/N)" + Style.RESET_ALL)
+        print(
+            Fore.LIGHTBLUE_EX + "-->> Do you want to test common passwords on discovered SAMBA services? (Y/N)" + Style.RESET_ALL)
         bruteforce_SMB = input()
     print(Fore.LIGHTBLUE_EX + ">> Do you want test the NMAP scripts? (Y/N)" + Style.RESET_ALL)
     script_Nmap = input()
@@ -138,7 +143,8 @@ if Scheduling_enable == 'Y':
     print(Fore.YELLOW + "NOTE: WRITE es.  18:00 22:00 13:22 00:22 ")
     Hour_of_day = input()
 else:
-    print(Fore.RED + "Do you want to start the web server to view the scan results on the browser? (Y/N)" + Style.RESET_ALL)
+    print(
+        Fore.RED + "Do you want to start the web server to view the scan results on the browser? (Y/N)" + Style.RESET_ALL)
     web_server_yes = input()
 ########create variable and dir of report #########
 var_nmap = var_1 + "/" + var_2
@@ -191,11 +197,10 @@ def arpScan():
 	''' + Style.RESET_ALL)
         try:
             # Fast Scan
-            cmd = subprocess.run(["sudo", "arp-scan","-R","-D","-x", var_nmap],stdout=arph)
+            cmd = subprocess.run(["sudo", "arp-scan", "-R", "-D", "-x", var_nmap], stdout=arph)
 
         except KeyboardInterrupt:
             sys.exit()
-
 
 
 ####### Fast Scan #######
@@ -207,12 +212,15 @@ def fastScan():
 	''' + Style.RESET_ALL)
         try:
             # Fast Scan
-            cmd = subprocess.run(["nmap", "-sn", var_nmap,"--stats-every","1s", "-oX", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"],
-                                 stdout=z)
+            cmd = subprocess.run(
+                ["nmap", "-sn", var_nmap, "--stats-every", "1s", "-oX", repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"],
+                stdout=z)
             cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Fast_Scan_Nmap_XLS_" + var_1 + ".xls",
                                   repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
-            cmd = subprocess.run(["xsltproc", "-o", repDir + "/Fast_Scan_Nmap_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
-            pdfkit.from_file(repDir + "/Fast_Scan_Nmap_" + var_1 + ".html", repDir + "/Fast_Scan_Nmap_" + var_1 + ".pdf")
+            cmd = subprocess.run(["xsltproc", "-o", repDir + "/Fast_Scan_Nmap_" + var_1 + ".html", "nmap-bootstrap.xsl",
+                                  repDir + "/Fast_Scan_Nmap_" + var_1 + ".xml"])
+            pdfkit.from_file(repDir + "/Fast_Scan_Nmap_" + var_1 + ".html",
+                             repDir + "/Fast_Scan_Nmap_" + var_1 + ".pdf")
         except KeyboardInterrupt:
             sys.exit()
 
@@ -229,12 +237,16 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-Pn", "-p-", "-A", "-"+speed, var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + var_1,"--stylesheet","nmap-bootstrap.xsl"], stdout=z)
+                    ["nmap", "-Pn", "-p-", "-A", "-" + speed, var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + var_1,
+                     "--stylesheet", "nmap-bootstrap.xsl"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_Pn_XLS" + var_1 + ".xls",
                                       repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
-                cmd = subprocess.run(["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html","nmap-bootstrap.xsl",repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
+                cmd = subprocess.run(
+                    ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html", "nmap-bootstrap.xsl",
+                     repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
 
-                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".pdf")
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html",
+                                 repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".pdf")
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -244,7 +256,7 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap","-p-", "-A", "-"+speed, var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + var_1,
+                    ["nmap", "-p-", "-A", "-" + speed, var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + var_1,
                      "--stylesheet", "nmap-bootstrap.xsl"], stdout=z)
                 cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
                                       repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
@@ -252,7 +264,8 @@ def deepScan():
                     ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", "nmap-bootstrap.xsl",
                      repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
 
-                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", repDir + "/Deep_Scan_Nmap_" + var_1 + ".pdf")
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + var_1 + ".html",
+                                 repDir + "/Deep_Scan_Nmap_" + var_1 + ".pdf")
 
 
 
@@ -278,7 +291,7 @@ def evasionScan():
     if evasion == 'Y':
         print(Fore.BLUE + '''
 ---Start Evasion IDS/Firewall Scan Mode---
-	''' + Style.RESET_ALL)
+    ''' + Style.RESET_ALL)
         try:
             # SCANNER evasion mode
             if Frag == 'Y':
@@ -298,7 +311,7 @@ def evasionScan():
             if Badsum == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
 ---Badsum mode--- Scan started, please wait!
-			''' + Style.RESET_ALL)
+            ''' + Style.RESET_ALL)
                 cmd = subprocess.run(
                     ["sudo", "nmap", "--badsum", var_nmap, "-oX",
                      repDir + "/Nmap_evasion_mode_badsum_" + var_1 + ".xml"], stdout=z)
@@ -312,7 +325,7 @@ def evasionScan():
             if Datalength == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
 ---Data length mode--- Scan started, please wait!
-			''' + Style.RESET_ALL)
+            ''' + Style.RESET_ALL)
                 cmd = subprocess.run(["sudo", "nmap", "--data-length", "25", var_nmap, "-oX",
                                       repDir + "/Nmap_evasion_mode_data_length_" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
@@ -325,7 +338,7 @@ def evasionScan():
             if Decoy == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
 ---Decoy mode--- Scan started, please wait!
-			''' + Style.RESET_ALL)
+            ''' + Style.RESET_ALL)
                 cmd = subprocess.run(
                     ["sudo", "nmap", "-D", "RND:5", var_nmap, "-oX",
                      repDir + "/Nmap_evasion_mode_decoy_random_" + var_1 + ".xml"], stdout=z)
@@ -339,7 +352,7 @@ def evasionScan():
             if SourcePort == 'Y':
                 print(Fore.LIGHTBLUE_EX + '''
 ---Source port DNS mode--- Scan started, please wait!
-			''' + Style.RESET_ALL)
+            ''' + Style.RESET_ALL)
                 cmd = subprocess.run(["sudo", "nmap", "--source-port", "53", var_nmap, "-oX",
                                       repDir + "/Nmap_evasion_mode_source_port_53_" + var_1 + ".xml"], stdout=z)
                 cmd = subprocess.run(
@@ -353,12 +366,11 @@ def evasionScan():
 
 
 def enumeration(a):
-
     ipScan = a
 
     print(Fore.RED + '''
 ---Start Enumeration Job--- 
-        			''' + Style.RESET_ALL)
+                ''' + Style.RESET_ALL)
 
     if (enum_mode == 'Y'):
 
@@ -368,19 +380,19 @@ def enumeration(a):
 
         print(Fore.CYAN + '''
 ---Port Scanner--- Scan started, please wait!
-        			''' + Style.RESET_ALL)
+                ''' + Style.RESET_ALL)
 
         if (pn_enum == 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-"+speed, ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-Pn", "-p-", "-" + speed, ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
         # else of the scanner if
         elif (pn_enum != 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-p-", "-"+speed, ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-p-", "-" + speed, ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
 
@@ -392,17 +404,20 @@ def enumeration(a):
         data = [x[:-1] for x in data]
         listToStr = ','.join([str(elem) for elem in data])
 
-        print(Fore.YELLOW+"\n----------------Open Port on " + ipScan + "------------------\n"+Style.RESET_ALL)
+        print(Fore.YELLOW + "\n----------------Open Port on " + ipScan + "------------------\n" + Style.RESET_ALL)
         for x in data:
-            print(Fore.LIGHTGREEN_EX+x+Style.RESET_ALL)
-        print(Fore.YELLOW+"\n----------------------------------------------------------\n"+Style.RESET_ALL)
+            print(Fore.LIGHTGREEN_EX + x + Style.RESET_ALL)
+        print(Fore.YELLOW + "\n----------------------------------------------------------\n" + Style.RESET_ALL)
 
         try:
             cmd = subprocess.run(
-                ["nmap", "-p", listToStr, "-A", "-"+speed, ipScan, "-oX", repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+                ["nmap", "-p", listToStr, "-A", "-" + speed, ipScan, "-oX",
+                 repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
             cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".xls",
                                   repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
-            cmd = subprocess.run(["xsltproc", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".html","nmap-bootstrap.xsl",repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
+            cmd = subprocess.run(
+                ["xsltproc", "-o", repDir + "/Nmap_portscanner_" + ipScan + ".html", "nmap-bootstrap.xsl",
+                 repDir + "/Nmap_portscanner_" + ipScan + ".xml"])
 
 
         except KeyboardInterrupt:
@@ -412,7 +427,7 @@ def enumeration(a):
 
             print(Fore.YELLOW + '''
 ---HTTP/HTTPS Testing, please wait!
-                    			''' + Style.RESET_ALL)
+                            ''' + Style.RESET_ALL)
             ### test HTTP/HTTPS Service on port
 
             https_enable = ''
@@ -440,7 +455,6 @@ def enumeration(a):
 
             #### nikto ###
             if (Nikto == 'Y'):
-
 
                 if https_enable == 'Y' or http_enable == 'Y':
                     print(Fore.CYAN + '''
@@ -561,8 +575,8 @@ def enumeration(a):
                             # cmd = subprocess.run(["./enum4linux/enum4linux.py", "-U", ipScan, "|", "grep", "username", "|", "awk","'{print $2}'>" + repDir + "User_SMB_" + ipScan + ".txt"])
 
                             cmd = subprocess.run(['ncrack', "-vvv", ipScan, "-p", "smb", "-g", "to=30", "-f", "-U",
-                                              "User" + repDir + "user_SMB.txt", "-P", "dictionary/pass_small.txt",
-                                              "-oA", repDir + "/Ncrack_SMB_pass_discovered_" + ipScan ])
+                                                  "User" + repDir + "user_SMB.txt", "-P", "dictionary/pass_small.txt",
+                                                  "-oA", repDir + "/Ncrack_SMB_pass_discovered_" + ipScan])
 
                             try:
                                 os.remove("User" + repDir + "user_SMB.txt")
@@ -608,101 +622,103 @@ def enumeration(a):
         except:
             print("not remove Buffer")
 
-def job_work(Job_ID,target,netmask,arp,a,b,b1,b2,c,c1,c2,c3,c4,c5,d,d1,d2,d3,d4,d5,d51,d6,e,e1,e2):
 
+def job_work(Job_ID, target, netmask, arp, a, b, b1, b2, c, c1, c2, c3, c4, c5, d, d1, d2, d3, d4, d5, d51, d6, e, e1,
+             e2):
     menu()
-    print(Fore.RED+"---List process on Job: "+Fore.LIGHTBLUE_EX+Job_ID+Fore.RED+" ---"+Style.RESET_ALL)
-    print(Fore.LIGHTRED_EX+"Target: "+Fore.LIGHTBLUE_EX+target+Fore.LIGHTRED_EX+" Netmask "+Fore.LIGHTBLUE_EX+netmask+Style.RESET_ALL)
-    print(Fore.RED+"***********************************"+Style.RESET_ALL)
+    print(Fore.RED + "---List process on Job: " + Fore.LIGHTBLUE_EX + Job_ID + Fore.RED + " ---" + Style.RESET_ALL)
+    print(
+        Fore.LIGHTRED_EX + "Target: " + Fore.LIGHTBLUE_EX + target + Fore.LIGHTRED_EX + " Netmask " + Fore.LIGHTBLUE_EX + netmask + Style.RESET_ALL)
+    print(Fore.RED + "***********************************" + Style.RESET_ALL)
     if arp == 'Y':
         print(Fore.YELLOW + "[X] ARP Scan" + Style.RESET_ALL)
     else:
         print(Fore.YELLOW + "[ ] ARQ Scan" + Style.RESET_ALL)
-    if a=='Y':
-        print(Fore.YELLOW+"[X] Fast Scan"+Style.RESET_ALL)
+    if a == 'Y':
+        print(Fore.YELLOW + "[X] Fast Scan" + Style.RESET_ALL)
     else:
-        print(Fore.YELLOW+"[ ] Fast Scan"+Style.RESET_ALL)
-    if b=='Y':
-        print(Fore.YELLOW+"[X] Deep Scan"+Style.RESET_ALL)
+        print(Fore.YELLOW + "[ ] Fast Scan" + Style.RESET_ALL)
+    if b == 'Y':
+        print(Fore.YELLOW + "[X] Deep Scan" + Style.RESET_ALL)
         if b1 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] -PN option enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] -PN option enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] -PN option enable"+Style.BRIGHT)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] -PN option enable" + Style.BRIGHT)
         if b2 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] Bruteforce option enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] Bruteforce option enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] Bruteforce option enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] Bruteforce option enable" + Style.RESET_ALL)
     else:
-        print(Fore.YELLOW+"[ ] Deep Scan"+Style.RESET_ALL)
+        print(Fore.YELLOW + "[ ] Deep Scan" + Style.RESET_ALL)
 
-    if c=='Y':
-        print(Fore.YELLOW+"[X] Evasion IDS/Firewall Scan Mode"+Style.RESET_ALL)
+    if c == 'Y':
+        print(Fore.YELLOW + "[X] Evasion IDS/Firewall Scan Mode" + Style.RESET_ALL)
         if c1 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] Fragmentary mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] Fragmentary mode" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] Fragmentary mode"+Style.BRIGHT)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] Fragmentary mode" + Style.BRIGHT)
         if c2 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] Badsum mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] Badsum mode" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] Badsum mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] Badsum mode" + Style.RESET_ALL)
         if c3 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] Data length mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] Data length mode" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] Data length mode"+Style.BRIGHT)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] Data length mode" + Style.BRIGHT)
         if c4 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] Decoy mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] Decoy mode" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] Decoy mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] Decoy mode" + Style.RESET_ALL)
         if c5 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] Source port DNS mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] Source port DNS mode" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] Source port DNS mode"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] Source port DNS mode" + Style.RESET_ALL)
     else:
-        print(Fore.YELLOW+"[ ] Evasion IDS/Firewall Scan Mode"+Style.RESET_ALL)
-    if d=='Y':
-        print(Fore.YELLOW+"[X] Enumeration mode"+Style.RESET_ALL)
+        print(Fore.YELLOW + "[ ] Evasion IDS/Firewall Scan Mode" + Style.RESET_ALL)
+    if d == 'Y':
+        print(Fore.YELLOW + "[X] Enumeration mode" + Style.RESET_ALL)
         if d1 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] -PN option enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] -PN option enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] -PN option enable"+Style.BRIGHT)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] -PN option enable" + Style.BRIGHT)
         if d2 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] MIKTO enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] MIKTO enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] NIKTO enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] NIKTO enable" + Style.RESET_ALL)
         if d3 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] WAPITI enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] WAPITI enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] WAPITI enable"+Style.BRIGHT)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] WAPITI enable" + Style.BRIGHT)
         if d4 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] ARACHNI enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] ARACHNI enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] ARACHNI enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] ARACHNI enable" + Style.RESET_ALL)
         if d5 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] ENUM4LINUX enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] ENUM4LINUX enable" + Style.RESET_ALL)
             if d51 == 'Y':
                 print(Fore.LIGHTYELLOW_EX + "-->[X] Bruteforce SMB Service mode" + Style.RESET_ALL)
             else:
                 print(Fore.LIGHTYELLOW_EX + "-->[ ] Bruteforce SMB Service mode" + Style.BRIGHT)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] ENUM4LINUX enable"+Style.BRIGHT)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] ENUM4LINUX enable" + Style.BRIGHT)
         if d6 == 'Y':
-            print(Fore.LIGHTYELLOW_EX+"->[X] NSE Nmap Script enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[X] NSE Nmap Script enable" + Style.RESET_ALL)
         else:
-            print(Fore.LIGHTYELLOW_EX+"->[ ] NSE Nmap Script enable"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "->[ ] NSE Nmap Script enable" + Style.RESET_ALL)
     else:
-        print(Fore.YELLOW+"[ ] Enumeration mode"+Style.RESET_ALL)
-    if e=='Y':
-        print(Fore.YELLOW+"[X] Scheduling Job enable"+Style.RESET_ALL)
-        print(Fore.LIGHTYELLOW_EX+"->Next job scheduled on "+str(weekDay(e1))+" at "+e2+Style.RESET_ALL)
+        print(Fore.YELLOW + "[ ] Enumeration mode" + Style.RESET_ALL)
+    if e == 'Y':
+        print(Fore.YELLOW + "[X] Scheduling Job enable" + Style.RESET_ALL)
+        print(Fore.LIGHTYELLOW_EX + "->Next job scheduled on " + str(weekDay(e1)) + " at " + e2 + Style.RESET_ALL)
     else:
-        print(Fore.YELLOW+"[ ] Scheduling Job enable"+Style.RESET_ALL)
+        print(Fore.YELLOW + "[ ] Scheduling Job enable" + Style.RESET_ALL)
 
 
 def finalOutMessage():
-    print(Fore.LIGHTGREEN_EX+'''
+    print(Fore.LIGHTGREEN_EX + '''
 The network scan is finished! 
 The reports are in the folder named with the network address and the scan start date and time.
-'''+Style.RESET_ALL)
+''' + Style.RESET_ALL)
 
 
 def listOfIp():
@@ -721,54 +737,51 @@ def listOfIp():
     IPlist = '\n'.join([str(elem) for elem in res])
 
     ####print IP list #####
-    print(Fore.MAGENTA+"\n----------- Host UP------------"+Style.RESET_ALL)
-    print(Fore.LIGHTRED_EX+IPlist+Style.RESET_ALL)
-    print(Fore.MAGENTA+"-------------------------------\n"+Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n----------- Host UP------------" + Style.RESET_ALL)
+    print(Fore.LIGHTRED_EX + IPlist + Style.RESET_ALL)
+    print(Fore.MAGENTA + "-------------------------------\n" + Style.RESET_ALL)
     time.sleep(20)
     return res
+
 
 def create_index_html():
     # write-html.py
 
-
-
-    filehtml=[]
-    filepdf=[]
-    filexls=[]
+    filehtml = []
+    filepdf = []
+    filexls = []
 
     for x in os.listdir(repDir):
         if x.endswith(".html"):
             filehtml.append(x)
 
-    link_page=''
+    link_page = ''
     for y in filehtml:
-        link_page+="<p><a href="+y+">"+y+"</a></p>"
-
+        link_page += "<p><a href=" + y + ">" + y + "</a></p>"
 
     for x in os.listdir(repDir):
         if x.endswith(".pdf"):
             filepdf.append(x)
 
-    link_pdf_page=''
+    link_pdf_page = ''
     for y in filepdf:
-        link_pdf_page+="<p><a href="+y+">"+y+"</a></p>"
-
+        link_pdf_page += "<p><a href=" + y + ">" + y + "</a></p>"
 
     for x in os.listdir(repDir):
         if x.endswith(".xls"):
             filexls.append(x)
 
-    link_xls_page=''
+    link_xls_page = ''
     for y in filexls:
-        link_xls_page+="<p><a href="+y+">"+y+"</a></p>"
+        link_xls_page += "<p><a href=" + y + ">" + y + "</a></p>"
 
     f = open('./' + repDir + '/index.html', 'w')
     if var_2 == '32':
-        title="<h2>Single Host Scan</h2>"
+        title = "<h2>Single Host Scan</h2>"
     else:
-        title="<h2>Net Scan</h2>"
+        title = "<h2>Net Scan</h2>"
 
-    message = "<html><head></head><body><h1>List Scan</h1>"+title+link_page+"<h2>Download PDF</h2>"+link_pdf_page+"<h2>Download Excel file</h2>"+link_xls_page+"</body></html>"
+    message = "<html><head></head><body><h1>List Scan</h1>" + title + link_page + "<h2>Download PDF</h2>" + link_pdf_page + "<h2>Download Excel file</h2>" + link_xls_page + "</body></html>"
 
     f.write(message)
     f.close()
@@ -782,8 +795,8 @@ def cleanBuffer():
     except:
         print("not remove Buffer")
 
-def server_http_dir():
 
+def server_http_dir():
     PORT = 5122
 
     try:
@@ -792,8 +805,8 @@ def server_http_dir():
                 super().__init__(*args, directory=repDir, **kwargs)
 
         with socketserver.TCPServer(("", PORT), Handler) as httpd:
-            print(Fore.LIGHTYELLOW_EX+"The job report is available via the WEB server (CTRL-C for exit).\n")
-            print(Fore.YELLOW+"Start server http://localhost:5122"+Style.RESET_ALL)
+            print(Fore.LIGHTYELLOW_EX + "The job report is available via the WEB server (CTRL-C for exit).\n")
+            print(Fore.YELLOW + "Start server http://localhost:5122" + Style.RESET_ALL)
             httpd.serve_forever()
     except KeyboardInterrupt:
         sys.exit()
@@ -804,7 +817,7 @@ def server_http_dir():
 
 if Scheduling_enable == 'Y':
     menu()
-    print(Fore.MAGENTA+" Job schedulated, please wait..."+Style.RESET_ALL)
+    print(Fore.MAGENTA + " Job schedulated, please wait..." + Style.RESET_ALL)
     while 1:
         try:
             ora = datetime.datetime.now()
@@ -813,10 +826,11 @@ if Scheduling_enable == 'Y':
                     print(Fore.RED + "\nStart schedulated " + job + " Job\n" + Style.RESET_ALL)
                     repDir = setupVariableReportScan(var_1, var_2)
                     z = open("Buffer" + repDir + ".txt", "a")
-                    arph = open(repDir+"/ARP_SCAN_" + repDir + ".txt", "a")
-                    job_work(job, var_1, var_2,arp_scan, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
-                         SourcePort, enum_mode, pn_enum, Nikto, Wapiti, arachni, Enum4linux, bruteforce_SMB,
-                         script_Nmap, Scheduling_enable, Day_of_week, Hour_of_day)
+                    arph = open(repDir + "/ARP_SCAN_" + repDir + ".txt", "a")
+                    job_work(job, var_1, var_2, arp_scan, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength,
+                             Decoy,
+                             SourcePort, enum_mode, pn_enum, Nikto, Wapiti, arachni, Enum4linux, bruteforce_SMB,
+                             script_Nmap, Scheduling_enable, Day_of_week, Hour_of_day)
                     time.sleep(30)
                     menu()
                     arpScan()
@@ -842,14 +856,16 @@ if Scheduling_enable == 'Y':
         except KeyboardInterrupt:
             sys.exit()
 else:
-    print(Fore.RED+"\nStart "+job+ " Job\n"+Style.RESET_ALL)
+    print(Fore.RED + "\nStart " + job + " Job\n" + Style.RESET_ALL)
     repDir = setupVariableReportScan(var_1, var_2)
     z = open("Buffer" + repDir + ".txt", "a")
-    arph = open(repDir+"/ARP_SCAN_" + repDir + ".txt", "a")
-    job_work(job,var_1,var_2,arp_scan,fast,deep,pn,bruteforce,evasion,Frag,Badsum,Datalength,Decoy,SourcePort,enum_mode,pn_enum,Nikto,Wapiti,arachni,Enum4linux,bruteforce_SMB,script_Nmap,Scheduling_enable,Day_of_week,Hour_of_day)
-    print(Fore.LIGHTBLUE_EX+"Execute the Job? (Y/N)")
-    execute_job=input()
-    if execute_job=='Y':
+    arph = open(repDir + "/ARP_SCAN_" + repDir + ".txt", "a")
+    job_work(job, var_1, var_2, arp_scan, fast, deep, pn, bruteforce, evasion, Frag, Badsum, Datalength, Decoy,
+             SourcePort, enum_mode, pn_enum, Nikto, Wapiti, arachni, Enum4linux, bruteforce_SMB, script_Nmap,
+             Scheduling_enable, Day_of_week, Hour_of_day)
+    print(Fore.LIGHTBLUE_EX + "Execute the Job? (Y/N)")
+    execute_job = input()
+    if execute_job == 'Y':
         menu()
         arpScan()
         menu()
@@ -866,10 +882,8 @@ else:
         finalOutMessage()
         cleanBuffer()
         create_index_html()
-        if web_server_yes=='Y':
+        if web_server_yes == 'Y':
             server_http_dir()
-
-
     else:
         print("Thank you! Goodbye!")
         sys.exit()
