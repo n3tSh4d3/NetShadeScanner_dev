@@ -19,6 +19,8 @@ try:
     import pdfkit
     import http.server
     import socketserver
+    from json2html import *
+    import json
 
 except ModuleNotFoundError:
     print('run the requirements.txt file to have all the requirements satisfied')
@@ -536,12 +538,24 @@ def enumeration(a):
                         print(Fore.CYAN + '''
 ---"Start Emun4linux enumeration share service,  please wait!
                                          ''' + Style.RESET_ALL)
-                        cmd = subprocess.run(
-                            ["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan])
-                        print("\n Report enum4linux saved!")
 
+                        result_enum =open(repDir+"/enum4linux_"+ipScan+".txt", "a")
+                        cmd = subprocess.run(
+                            ["./enum4linux/enum4linux.py", "-A", ipScan, "-oA", repDir + "/enum4linux_" + ipScan],stdout=result_enum)
+                        print("\n Report enum4linux saved!")
+                        result_enum.close()
                     except KeyboardInterrupt:
                         sys.exit()
+
+                    with open(repDir + "/enum4linux_" + ipScan+".json", "r") as f:
+                        json_object = json.loads(f.read())
+
+                    # conversione JSON to HTML
+                    html = json2html.convert(json=json_object)
+                    print(html)
+                    fenum = open(repDir + "/enum4linux_" + ipScan + ".html", "w")
+                    fenum.write(html)
+                    fenum.close
 
                     if bruteforce_SMB == 'Y':
 

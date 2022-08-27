@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Nmap_Script_Collection" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/enum4linux/JSONtoHTML-byPython" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/prova/NmapSCanner_LAB" vcs="Git" />
   </component>
 </project>
