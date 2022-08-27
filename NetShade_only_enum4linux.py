@@ -25,6 +25,7 @@ try:
     import socketserver
     from json2html import *
     import json
+    import array
 
 except ModuleNotFoundError:
     print('run the requirements.txt file to have all the requirements satisfied')
@@ -54,13 +55,43 @@ job = input()
 menu()
 print(Fore.RED + "Setup Target")
 
-print(Fore.GREEN + "Enter the target of the net scan: (es.192.168.1.0)" + Style.RESET_ALL)
-print(Fore.YELLOW + "NOTE:Alternatively, enter the single host to be analyzed (es.192.168.1.254)" + Style.RESET_ALL)
-var_1 = input()
+#inizializza array target
 
-print(Fore.GREEN + "Enter the subnet of the net scan: (24)" + Style.RESET_ALL)
-print(Fore.YELLOW + 'NOTE: Enter "32" for a single host' + Style.RESET_ALL)
-var_2 = input()
+job_array = []
+job_nomedir = []
+
+while(True):
+    #crea target da verificare
+    print(Fore.BLUE+"\nList of Network Target :")
+    print("************** end list *****************")
+    for target in job_array:
+        print(Fore.LIGHTYELLOW_EX+target+Style.RESET_ALL)
+    print(Fore.BLUE+"************** end list *****************\n")
+    print(Fore.GREEN + "Enter the target of the net scan: (es.192.168.1.0)" + Style.RESET_ALL)
+    print(Fore.YELLOW + "NOTE:Alternatively, enter the single host to be analyzed (es.192.168.1.254)" + Style.RESET_ALL)
+    var_1 = input()
+
+    print(Fore.GREEN + "Enter the subnet of the net scan: (24)" + Style.RESET_ALL)
+    print(Fore.YELLOW + 'NOTE: Enter "32" for a single host' + Style.RESET_ALL)
+    var_2 = input()
+
+    #crea variabile target ip + netmask
+    var_nmap = var_1 + "/" + var_2
+    dir_net = var_1 + "_" + var_2
+
+    job_array.append(var_nmap)
+    job_nomedir.append(dir_net)
+    print(Fore.LIGHTRED_EX+"Do you want insert addictional net scan?(Y/N)"+Style.RESET_ALL)
+    other_net=input()
+    if other_net != 'Y':
+        print(Fore.LIGHTGREEN_EX + "\nList of Network Target Active:")
+        print("************** end list *****************")
+        for target in job_array:
+            print(Fore.LIGHTYELLOW_EX + target + Style.RESET_ALL)
+        print(Fore.LIGHTGREEN_EX + "************** end list *****************\n")
+        break
+
+
 
 print(Fore.LIGHTBLUE_EX + ">> Do you want use -Pn option for port scanner? (Y/N)" + Style.RESET_ALL)
 pn = input()
@@ -85,20 +116,35 @@ if Scheduling_enable == 'Y':
     Hour_of_day = input()
 
 ########create variable and dir of report #########
-var_nmap = var_1 + "/" + var_2
+
 repDir = ''
 z = ''
 arph = ''
 
 
 ########create variable and dir of report #########
-def setupVariableReportScan(a, b):
-    Var_1 = a
-    Var_2 = b
+def setupVariableReportScan(a):
+    dir_n = a
     time_string = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
-    RepDir = "Job_" + job + "_" + Var_1 + "_" + Var_2 + "_at_" + time_string
+    RepDir = "Job_" + job + "_" + dir_n + "_at_" + time_string
     cmd = subprocess.run(["mkdir", RepDir])
     return RepDir
+
+def html2pdf_fctn(a,b):
+
+    input = a
+    output = b
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.50in',
+        'margin-right': '0.50in',
+        'margin-bottom': '0.50in',
+        'margin-left': '0.50in',
+        'encoding': "UTF-8",
+        'no-outline': None
+    }
+
+    pdfkit.from_file(input, output, options=options)
 
 
 ###### weekday ####
@@ -127,7 +173,9 @@ def weekDay(a):
 
 
 
-def deepScan():
+def deepScan(x,y):
+    var_nmap = x
+    dir_net = y
     if (True):
         print(Fore.RED + '''
 ---Start Deep Network Scan Mode---  Scan started, please wait!
@@ -137,16 +185,16 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-Pn", "-p 139,445", "-A", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + var_1,
+                    ["nmap", "-Pn", "-p 139,445","--open", "-A", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_Pn_" + dir_net,
                      "--stylesheet", "nmap-bootstrap.xsl"], stdout=z)
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_Pn_XLS" + var_1 + ".xls",
-                                      repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_Pn_XLS" + dir_net + ".xls",
+                                      repDir + "/Deep_Scan_Nmap_Pn_" + dir_net + ".xml"])
                 cmd = subprocess.run(
-                    ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html", "nmap-bootstrap.xsl",
-                     repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".xml"])
+                    ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_Pn_" + dir_net + ".html", "nmap-bootstrap.xsl",
+                     repDir + "/Deep_Scan_Nmap_Pn_" + dir_net + ".xml"])
 
-                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".html",
-                                 repDir + "/Deep_Scan_Nmap_Pn_" + var_1 + ".pdf")
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_Pn_" + dir_net + ".html",
+                                 repDir + "/Deep_Scan_Nmap_Pn_" + dir_net + ".pdf")
 
             except KeyboardInterrupt:
                 sys.exit()
@@ -156,16 +204,16 @@ def deepScan():
             try:
                 # SCANNER NP mode NOT evasion mode
                 cmd = subprocess.run(
-                    ["nmap", "-p 139,445", "-A", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + var_1,
+                    ["nmap", "-p 139,445","--open", "-A", var_nmap, "-oA", repDir + "/Deep_Scan_Nmap_" + dir_net,
                      "--stylesheet", "nmap-bootstrap.xsl"], stdout=z)
-                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + var_1 + ".xls",
-                                      repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
+                cmd = subprocess.run(["./nmap-converter.py", "-o", repDir + "/Deep_Scan_Nmap_XLS" + dir_net + ".xls",
+                                      repDir + "/Deep_Scan_Nmap_" + dir_net + ".xml"])
                 cmd = subprocess.run(
-                    ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_" + var_1 + ".html", "nmap-bootstrap.xsl",
-                     repDir + "/Deep_Scan_Nmap_" + var_1 + ".xml"])
+                    ["xsltproc", "-o", repDir + "/Deep_Scan_Nmap_" + dir_net + ".html", "nmap-bootstrap.xsl",
+                     repDir + "/Deep_Scan_Nmap_" + dir_net + ".xml"])
 
-                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + var_1 + ".html",
-                                 repDir + "/Deep_Scan_Nmap_" + var_1 + ".pdf")
+                pdfkit.from_file(repDir + "/Deep_Scan_Nmap_" + dir_net + ".html",
+                                 repDir + "/Deep_Scan_Nmap_" + dir_net + ".pdf")
 
 
 
@@ -195,14 +243,14 @@ def enumeration(a):
         if (pn == 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-Pn", "-p 139,445", ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-Pn", "-p 139,445","--open", ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
         # else of the scanner if
         elif (pn != 'Y'):
             try:
                 # SCANNER NP mode
-                cmd = subprocess.run(["nmap", "-p 139,445", ipScan], stdout=f)
+                cmd = subprocess.run(["nmap", "-p 139,445","--open", ipScan], stdout=f)
             except KeyboardInterrupt:
                 sys.exit()
 
@@ -253,16 +301,16 @@ def enumeration(a):
                     with open(repDir + "/enum4linux_" + ipScan+".json", "r") as f:
                         json_object = json.loads(f.read())
 
+                    print(json_object)
                     # conversione JSON to HTML
                     html = json2html.convert(json=json_object)
-                    print(html)
                     fenum = open(repDir + "/enum4linux_" + ipScan + ".html", "w")
                     fenum.write(html)
                     fenum.close
 
                     #conversione HTML to PDF
-                    pdfkit.from_file(repDir + "/enum4linux_" + ipScan + ".html", repDir + "/enum4linux_" + ipScan + ".pdf")
-
+                    #pdfkit.from_file(repDir + "/enum4linux_" + ipScan + ".html", repDir + "/enum4linux_" + ipScan + ".pdf")
+                    html2pdf_fctn(repDir + "/enum4linux_" + ipScan + ".html", repDir + "/enum4linux_" + ipScan + ".pdf")
 
                     if bruteforce_SMB == 'Y':
 
@@ -409,19 +457,17 @@ if Scheduling_enable == 'Y':
             ora = datetime.datetime.now()
             if Day_of_week == str(ora.weekday()):
                 if ora.strftime("%H:%M") == Hour_of_day:
+                    i = 0;
                     print(Fore.RED + "\nStart schedulated " + job + " Job\n" + Style.RESET_ALL)
-                    repDir = setupVariableReportScan(var_1, var_2)
-                    z = open("Buffer" + repDir + ".txt", "a")
-                    menu()
-                    deepScan()
-                    menu()
-                    ip_list_up = listOfIp()
-                    for elem in ip_list_up:
-                        menu()
-                        enumeration(elem)
-                    menu()
-                    finalOutMessage()
-                    cleanBuffer()
+                    for a in range(len(job_nomedir)):
+                        repDir = setupVariableReportScan(job_nomedir[a])
+                        z = open("Buffer" + repDir + ".txt", "a")
+                        deepScan(job_array[i], job_nomedir[a])
+                        ip_list_up = listOfIp()
+                        for elem in ip_list_up:
+                             enumeration(elem)
+                        finalOutMessage()
+                        cleanBuffer()
                     time.sleep(61)
             if ora.strftime("%S") == "00":
                 menu()
@@ -432,23 +478,21 @@ if Scheduling_enable == 'Y':
             sys.exit()
 else:
     print(Fore.RED + "\nStart " + job + " Job\n" + Style.RESET_ALL)
-    repDir = setupVariableReportScan(var_1, var_2)
-    z = open("Buffer" + repDir + ".txt", "a")
-    arph = open(repDir + "/ARP_SCAN_" + repDir + ".txt", "a")
+    i = 0;
     print(Fore.LIGHTBLUE_EX + "Execute the Job? (Y/N)")
     execute_job = input()
-    if execute_job == 'Y':
-        menu()
-        deepScan()
-        menu()
-        ip_list_up = listOfIp()
-        for elem in ip_list_up:
-            menu()
-            enumeration(elem)
-        menu()
-        finalOutMessage()
-        cleanBuffer()
-        create_index_html()
-    else:
-        print("Thank you! Goodbye!")
-        sys.exit()
+    for a in range(len(job_nomedir)):
+        repDir = setupVariableReportScan(job_nomedir[a])
+        z = open("Buffer" + repDir + ".txt", "a")
+        if execute_job == 'Y':
+            deepScan(job_array[i],job_nomedir[a])
+            ip_list_up = listOfIp()
+            for elem in ip_list_up:
+                enumeration(elem)
+            finalOutMessage()
+            cleanBuffer()
+            create_index_html()
+        else:
+            print("Thank you! Goodbye!")
+            sys.exit()
+        i+=1
